@@ -1,4 +1,4 @@
-package com.greenhouse.android;
+package com.greenhouse.android.Wrappers;
 
 public class Temperature {
     private String value;

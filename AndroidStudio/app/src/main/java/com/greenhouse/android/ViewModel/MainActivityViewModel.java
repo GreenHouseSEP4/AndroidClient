@@ -1,7 +1,10 @@
-package com.greenhouse.android;
+package com.greenhouse.android.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.greenhouse.android.Model.TemperatureRepository;
+import com.greenhouse.android.Wrappers.Temperature;
 
 public class MainActivityViewModel extends ViewModel {
     TemperatureRepository repository;
@@ -11,7 +14,7 @@ public class MainActivityViewModel extends ViewModel {
         repository = TemperatureRepository.getInstance();
     }
 
-    LiveData<Temperature> getRequestedData()
+    public LiveData<Temperature> getRequestedData()
     {
         return repository.getData();
     }

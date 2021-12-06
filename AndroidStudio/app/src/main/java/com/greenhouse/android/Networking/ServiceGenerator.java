@@ -1,4 +1,4 @@
-package com.greenhouse.android;
+package com.greenhouse.android.Networking;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

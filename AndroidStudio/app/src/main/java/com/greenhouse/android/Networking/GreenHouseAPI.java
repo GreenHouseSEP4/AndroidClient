@@ -1,5 +1,7 @@
-package com.greenhouse.android;
+package com.greenhouse.android.Networking;
 
+
+import com.greenhouse.android.Wrappers.APIResponse.TemperatureResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
