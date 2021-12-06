@@ -1,4 +1,4 @@
-package com.greenhouse.android.ui.home;
+package com.greenhouse.android.View.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
