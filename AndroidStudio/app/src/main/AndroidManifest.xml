@@ -15,7 +15,9 @@
         <activity
             android:name=".MainPageActivity"
             android:exported="false"
-            android:label="@string/title_activity_main_page" />
+            android:label="@string/title_activity_main_page"
+
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true">
