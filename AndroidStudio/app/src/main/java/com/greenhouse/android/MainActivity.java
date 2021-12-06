@@ -3,6 +3,7 @@ package com.greenhouse.android;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +24,15 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mainViewModel.getRequestedData().observe(this, data -> showData.setText(data.getData()));
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(v->{
+            Intent intent = new Intent(this, MainPageActivity.class);
+            startActivity(intent);
+        });
+//        getData = findViewById(R.id.get_button);
+//        showData = findViewById(R.id.textViewShow);
+//        id = findViewById(R.id.id_text);
 
-        getData = findViewById(R.id.get_button);
-        showData = findViewById(R.id.textViewShow);
-        id = findViewById(R.id.id_text);
-
-        getData.setOnClickListener(v -> mainViewModel.requestData(Integer.parseInt( id.getText().toString())));
+        //getData.setOnClickListener(v -> mainViewModel.requestData(Integer.parseInt( id.getText().toString())));
     }
 }
