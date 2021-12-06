@@ -1,9 +1,14 @@
-package com.greenhouse.android;
+package com.greenhouse.android.Model;
 
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.greenhouse.android.Networking.GreenHouseAPI;
+import com.greenhouse.android.Networking.ServiceGenerator;
+import com.greenhouse.android.Wrappers.Temperature;
+import com.greenhouse.android.Wrappers.APIResponse.TemperatureResponse;
 
 import java.io.IOException;
 
