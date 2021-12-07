@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.greenhouse.android.Networking.AuthAPI;
 import com.greenhouse.android.Networking.ServiceGenerator;
 import com.greenhouse.android.Networking.UserAPI;
 import com.greenhouse.android.Util.LocalStorage;
@@ -19,6 +20,7 @@ import retrofit2.Response;
 public class UserRepository {
     private static UserRepository instance;
     private UserAPI userAPI;
+    private AuthAPI authAPI;
 
     private MutableLiveData<JWT> accessToken;
     private MutableLiveData<JWT> refreshToken;
@@ -28,6 +30,7 @@ public class UserRepository {
 
     private UserRepository(){
         userAPI = ServiceGenerator.getUserAPI();
+        authAPI = ServiceGenerator.getAuthAPI();
         refreshToken = new MutableLiveData<>();
         accessToken = new MutableLiveData<>();
 
@@ -56,7 +59,7 @@ public class UserRepository {
         LocalStorage.getInstance().set("email",user.getEmail());
         LocalStorage.getInstance().set("pass",user.getPassword());
 
-        Call<JWT> call = userAPI.login(user);
+        Call<JWT> call = authAPI.login(user);
         call.enqueue(new Callback<JWT>() {
             @Override
             public void onResponse(Call<JWT> call, Response<JWT> response) {
