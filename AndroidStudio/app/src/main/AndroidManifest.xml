@@ -13,13 +13,14 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".View.MainPageActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main_page"
-
-            />
+            android:name=".View.RegisterActivity"
+            android:exported="false" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".View.StartActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main_page" />
+        <activity
+            android:name=".View.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

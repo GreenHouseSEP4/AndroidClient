@@ -1,4 +1,4 @@
-package com.greenhouse.android;
+package com.greenhouse.android.View;
 
 import android.os.Bundle;
 
@@ -10,9 +10,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.greenhouse.android.R;
 import com.greenhouse.android.databinding.ActivityMainPageBinding;
 
-public class MainPageActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     private ActivityMainPageBinding binding;
 
