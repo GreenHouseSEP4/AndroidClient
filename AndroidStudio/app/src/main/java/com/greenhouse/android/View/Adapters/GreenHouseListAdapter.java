@@ -1,4 +1,4 @@
-package com.greenhouse.android.View.RecyclerView;
+package com.greenhouse.android.View.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.greenhouse.android.R;
+import com.greenhouse.android.Wrappers.GreenHouse;
 
 import java.util.List;
 
 public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAdapter.ViewHolder> {
 
-    List<GHListItem> ghList;
+    List<GreenHouse> ghList;
 
-    public GreenHouseListAdapter (List<GHListItem> ghList){
+    public GreenHouseListAdapter (List<GreenHouse> ghList){
         this.ghList = ghList;
     }
 

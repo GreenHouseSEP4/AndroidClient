@@ -1,4 +1,4 @@
-package com.greenhouse.android.View.ui.home;
+package com.greenhouse.android.View.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.greenhouse.android.R;
-import com.greenhouse.android.View.RecyclerView.GHListItem;
-import com.greenhouse.android.View.RecyclerView.GreenHouseListAdapter;
+import com.greenhouse.android.Wrappers.GreenHouse;
+import com.greenhouse.android.View.Adapters.GreenHouseListAdapter;
+import com.greenhouse.android.ViewModel.HomeViewModel;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -41,9 +42,9 @@ public class HomeFragment extends Fragment {
         recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewMainPage.hasFixedSize();
 
-        List<GHListItem> ghList = new ArrayList<>();
-        ghList.add(new GHListItem("GH1"));
-        ghList.add(new GHListItem("GH2"));
+        List<GreenHouse> ghList = new ArrayList<>();
+        ghList.add(new GreenHouse("GH1"));
+        ghList.add(new GreenHouse("GH2"));
 
         GreenHouseListAdapter adapter = new GreenHouseListAdapter(ghList);
         recyclerViewMainPage.setAdapter(adapter);

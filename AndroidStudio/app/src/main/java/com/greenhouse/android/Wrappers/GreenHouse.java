@@ -1,9 +1,9 @@
-package com.greenhouse.android.View.RecyclerView;
+package com.greenhouse.android.Wrappers;
 
-public class GHListItem {
+public class GreenHouse {
     private String title;
 
-    public GHListItem(String title) {
+    public GreenHouse(String title) {
         this.title = title;
     }
 
