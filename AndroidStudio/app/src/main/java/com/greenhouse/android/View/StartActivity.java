@@ -1,6 +1,8 @@
 package com.greenhouse.android.View;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,6 +24,12 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
+
+        // Hiding title bar and making it fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
