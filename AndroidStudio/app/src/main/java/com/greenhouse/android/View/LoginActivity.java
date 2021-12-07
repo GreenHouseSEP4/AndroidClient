@@ -10,7 +10,10 @@ import com.greenhouse.android.View.StartActivity;
 import com.greenhouse.android.ViewModel.UserViewModel;
 import com.greenhouse.android.Wrappers.APIResponse.JWT;
 import com.greenhouse.android.Wrappers.User;
+import com.greenhouse.android.databinding.ActivityLoginBinding;
+import com.greenhouse.android.databinding.ActivityMainPageBinding;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +25,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     boolean logged;
 
 
-
+    ActivityLoginBinding binding;
 
 
     private UserViewModel userViewModel;
@@ -52,7 +57,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         contextOfApplication = getApplicationContext();
 
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+
         super.onCreate(savedInstanceState);
+
+        // Hiding title bar and making it fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+        setContentView(binding.getRoot());
 
         setContentView(R.layout.activity_login);
 
