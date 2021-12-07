@@ -6,29 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".View.Fragments.HomeFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Greenhouse APP"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:stretchColumns="1,2,3"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,8 +74,8 @@
         android:id="@+id/mainHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:text="Greenhouses:"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
@@ -107,8 +96,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainPageRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="600dp"
-        android:layout_marginTop="1dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="120sp"
+        android:paddingTop="40sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/mainHeader" />

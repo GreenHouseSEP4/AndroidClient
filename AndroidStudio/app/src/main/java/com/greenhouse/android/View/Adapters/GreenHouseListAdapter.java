@@ -48,7 +48,7 @@ public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAd
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            gHItemTitle = itemView.findViewById(R.id.gHItemTitle);
+            gHItemTitle = itemView.findViewById(R.id.geItemTitle);
         }
     }
 }
