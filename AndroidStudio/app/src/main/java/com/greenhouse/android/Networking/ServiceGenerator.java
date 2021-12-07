@@ -28,13 +28,18 @@ public class ServiceGenerator {
             .baseUrl("http://gatewayserver-env.eba-jv7rk7pv.eu-central-1.elasticbeanstalk.com/")
             .addConverterFactory(GsonConverterFactory.create());
 
+    private static Retrofit.Builder authBuilder = new Retrofit.Builder()
+            .baseUrl("https://greenauth.ddlele.com/")
+            .addConverterFactory(GsonConverterFactory.create());
+
     private static Retrofit retrofit = retrofitBuilder.build();
-    private static Retrofit retrofitAuth = retrofitBuilder.client(client).build();
+    private static Retrofit retrofitAuth = authBuilder.build();
+
 
 
     private static GreenHouseAPI greenHouseAPI = retrofit.create(GreenHouseAPI.class);
-    private static UserAPI userAPI = retrofit.create(UserAPI.class);
-    private static AuthAPI authAPI = retrofit.create(AuthAPI.class);
+    private static UserAPI userAPI = retrofitAuth.create(UserAPI.class);
+    private static AuthAPI authAPI = retrofitAuth.create(AuthAPI.class);
 
     public static GreenHouseAPI getGreenHouseAPI()
     {

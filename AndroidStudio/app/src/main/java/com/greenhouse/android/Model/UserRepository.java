@@ -91,14 +91,17 @@ public class UserRepository {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     login(user);
+                } else {
+                    accessToken.setValue(new JWT("empty"));
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.i("api call", "Error");
+                accessToken.setValue(new JWT("empty"));
             }
         });
 
