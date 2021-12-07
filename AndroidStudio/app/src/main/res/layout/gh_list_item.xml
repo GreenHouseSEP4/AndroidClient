@@ -1,16 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@color/purple_200"
+    android:layout_marginTop="30sp">
 
-    <TextView
-        android:id="@+id/gHItemTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/green"
-        android:text="GreenHouse1"
-        android:textSize="50sp"
-        android:gravity="center"/>
+        android:layout_height="200sp"
+        android:background="@drawable/gh1"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/geItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rounder_corner"
+            android:gravity="center"
+            android:padding="13sp"
+            android:text="Greenhouse 1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:circularflow_radiusInDP="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:background="#eeeeee"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        tools:layout_editor_absoluteX="-192dp">
+
+
+        <ImageView
+            android:id="@+id/gh_start_icon_hum"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gh_start_icon_temp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26999998"
+            app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+
+        <TextView
+            android:id="@+id/gh_start_hum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="59 %"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_hum"
+            app:layout_constraintStart_toStartOf="@+id/gh_start_icon_hum"
+            app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_hum"
+            app:layout_constraintVertical_bias="0.304" />
+
+        <ImageView
+            android:id="@+id/gh_start_icon_temp"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gh_start_icon_light"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/gh_start_icon_hum"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_home_black_24dp" />
+
+        <TextView
+            android:id="@+id/gh_start_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 °C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_temp"
+            app:layout_constraintStart_toStartOf="@+id/gh_start_icon_temp"
+            app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_temp"
+            app:layout_constraintVertical_bias="0.304" />
+
+        <ImageView
+            android:id="@+id/gh_start_icon_light"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gh_start_icon_co2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/gh_start_icon_temp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+        <TextView
+            android:id="@+id/gh_start_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3320 LUM"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_light"
+            app:layout_constraintStart_toStartOf="@+id/gh_start_icon_light"
+            app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_light"
+            app:layout_constraintVertical_bias="0.304" />
+
+        <ImageView
+            android:id="@+id/gh_start_icon_co2"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/gh_start_icon_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.275"
+            app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+        <TextView
+            android:id="@+id/gh_start_co2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500 PPM"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_co2"
+            app:layout_constraintStart_toStartOf="@+id/gh_start_icon_co2"
+            app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_co2"
+            app:layout_constraintVertical_bias="0.304" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

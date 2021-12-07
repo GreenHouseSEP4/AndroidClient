@@ -43,8 +43,8 @@ public class HomeFragment extends Fragment {
         recyclerViewMainPage.hasFixedSize();
 
         List<GreenHouse> ghList = new ArrayList<>();
-        ghList.add(new GreenHouse("GH1"));
-        ghList.add(new GreenHouse("GH2"));
+        ghList.add(new GreenHouse("Greenhouse 1"));
+        ghList.add(new GreenHouse("Greenhouse 2"));
 
         GreenHouseListAdapter adapter = new GreenHouseListAdapter(ghList);
         recyclerViewMainPage.setAdapter(adapter);
