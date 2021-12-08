@@ -25,14 +25,18 @@ public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAd
     @Override
     public GreenHouseListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.gh_list_item, parent, false);
+        View view = inflater.inflate(R.layout.greenhouse, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.gHItemTitle.setText(ghList.get(position).getTitle());
-
+        GreenHouse current = ghList.get(position);
+        holder.gHItemTitle.setText(current.getTitle());
+        holder.ghHum.setText(current.getLatest().humidity+" %");
+        holder.ghTemp.setText(current.getLatest().temperature+" °C");
+        holder.ghLight.setText(current.getLatest().light+" LUM");
+        holder.ghCO2.setText(current.getLatest().co2+" PPM");
     }
 
 
@@ -44,11 +48,19 @@ public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAd
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView gHItemTitle;
+        TextView ghHum;
+        TextView ghTemp;
+        TextView ghLight;
+        TextView ghCO2;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            gHItemTitle = itemView.findViewById(R.id.geItemTitle);
+            gHItemTitle = itemView.findViewById(R.id.gh_title);
+            ghHum = itemView.findViewById(R.id.gh_start_hum);
+            ghTemp = itemView.findViewById(R.id.gh_start_temp) ;
+            ghLight  = itemView.findViewById(R.id.gh_start_light);
+            ghCO2  = itemView.findViewById(R.id.gh_start_co2);
         }
     }
 }
