@@ -37,13 +37,13 @@ public class ServiceGenerator {
 
 
 
-    private static GreenHouseAPI greenHouseAPI = retrofit.create(GreenHouseAPI.class);
+    private static GreenhouseAPI greenhouseAPI = retrofit.create(GreenhouseAPI.class);
     private static UserAPI userAPI = retrofitAuth.create(UserAPI.class);
     private static AuthAPI authAPI = retrofitAuth.create(AuthAPI.class);
 
-    public static GreenHouseAPI getGreenHouseAPI()
+    public static GreenhouseAPI getGreenhouseAPI()
     {
-        return greenHouseAPI;
+        return greenhouseAPI;
     }
     public static UserAPI getUserAPI()
     {
