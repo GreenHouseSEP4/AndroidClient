@@ -32,7 +32,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Device current = ghList.get(position);
-        holder.gHItemTitle.setText(current.getTitle());
+        holder.gHItemTitle.setText(current.getLocation());
         holder.ghHum.setText(current.getLatest().humidity+" %");
         holder.ghTemp.setText(current.getLatest().temperature+" °C");
         holder.ghLight.setText(current.getLatest().light+" LUM");

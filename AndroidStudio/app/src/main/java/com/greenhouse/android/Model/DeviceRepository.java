@@ -55,7 +55,7 @@ public class DeviceRepository {
                         currentAll.add(response.body());
                         allDevices.setValue(currentAll);
                     } else {
-                        Log.e("expenseAPI","call: "+response.code()+" "+response.message());
+                        Log.e("deviceAPI","call: "+response.code()+" "+response.message());
                     }
                 }
                 @EverythingIsNonNull
