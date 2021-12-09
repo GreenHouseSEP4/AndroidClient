@@ -26,7 +26,7 @@ import com.greenhouse.android.databinding.FragmentHomeBinding;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnListItemClickListener {
 
     private HomeViewModel homeViewModel;
     private DevicesViewModel devicesViewModel;
@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
 
     FloatingActionButton addDevice;
 
+    List<GreenHouse> ghList;  // Moved it outside of the method so the clicklistener works.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         devicesViewModel = new ViewModelProvider(this).get(DevicesViewModel.class);
+
+        ghList = new ArrayList<>();
+        GreenHouseListAdapter adapter = new GreenHouseListAdapter(ghList, this);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -72,4 +76,24 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
+        Bundle bundle = new Bundle();
+            bundle.putString("name", ghList.get(clickedItemIndex).getTitle());
+            bundle.putInt("temperature", ghList.get(clickedItemIndex).getLatest().getTemperature());
+            bundle.putInt("light", ghList.get(clickedItemIndex).getLatest().getLight());
+            bundle.putInt("co2", ghList.get(clickedItemIndex).getLatest().getCo2());
+            bundle.putInt("humidity", ghList.get(clickedItemIndex).getLatest().getHumidity());
+
+
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_greenhouse_show, bundle);
+
+    }
 }

@@ -15,10 +15,12 @@ import java.util.List;
 
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
 
-    List<Device> ghList;
+    final private OnListItemClickListener listener;
+    List<GreenHouse> ghList;
 
-    public DeviceListAdapter(List<Device> ghList){
+    public GreenHouseListAdapter (List<GreenHouse> ghList, OnListItemClickListener listener){
         this.ghList = ghList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         return ghList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView gHItemTitle;
         TextView ghHum;
@@ -61,6 +63,17 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             ghTemp = itemView.findViewById(R.id.gh_start_temp) ;
             ghLight  = itemView.findViewById(R.id.gh_start_light);
             ghCO2  = itemView.findViewById(R.id.gh_start_co2);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onListItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnListItemClickListener
+    {
+        void onListItemClick(int clickedItemIndex);
     }
 }
