@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:stretchColumns="1,2,3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
@@ -74,8 +76,8 @@
         android:id="@+id/mainHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Greenhouses:"
-        android:textSize="30sp"
+        android:text="Devices:"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 

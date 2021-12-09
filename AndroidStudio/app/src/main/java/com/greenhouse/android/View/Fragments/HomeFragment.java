@@ -1,6 +1,5 @@
 package com.greenhouse.android.View.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,20 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.greenhouse.android.R;
-import com.greenhouse.android.ViewModel.GreenhouseViewModel;
-import com.greenhouse.android.Wrappers.APIResponse.GreenData;
-import com.greenhouse.android.Wrappers.GreenHouse;
-import com.greenhouse.android.View.Adapters.GreenHouseListAdapter;
+import com.greenhouse.android.ViewModel.DevicesViewModel;
+import com.greenhouse.android.Wrappers.Device;
+import com.greenhouse.android.View.Adapters.DeviceListAdapter;
 import com.greenhouse.android.ViewModel.HomeViewModel;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private GreenhouseViewModel greenhouseViewModel;
+    private DevicesViewModel devicesViewModel;
     private FragmentHomeBinding binding;
     RecyclerView recyclerViewMainPage;
 
@@ -38,19 +35,15 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
-        greenhouseViewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
+        devicesViewModel = new ViewModelProvider(this).get(DevicesViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        greenhouseViewModel.getLatest().observe(getViewLifecycleOwner(), new Observer<GreenData>() {
+        devicesViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Device>>() {
             @Override
-            public void onChanged(GreenData greenData) {
-                List<GreenHouse> ghList = new ArrayList<>();
-                ghList.add(new GreenHouse("Greenhouse 1",greenData));
-                ghList.add(new GreenHouse("Greenhouse 2",greenData));
-
-                GreenHouseListAdapter adapter = new GreenHouseListAdapter(ghList);
+            public void onChanged(List<Device> devices) {
+                DeviceListAdapter adapter = new DeviceListAdapter(devices);
                 recyclerViewMainPage.setAdapter(adapter);
             }
         });

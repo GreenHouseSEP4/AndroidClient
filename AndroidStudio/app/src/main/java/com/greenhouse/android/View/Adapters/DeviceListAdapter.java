@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.greenhouse.android.R;
-import com.greenhouse.android.Wrappers.GreenHouse;
+import com.greenhouse.android.Wrappers.Device;
 
 import java.util.List;
 
-public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAdapter.ViewHolder> {
+public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
 
-    List<GreenHouse> ghList;
+    List<Device> ghList;
 
-    public GreenHouseListAdapter (List<GreenHouse> ghList){
+    public DeviceListAdapter(List<Device> ghList){
         this.ghList = ghList;
     }
 
     @NonNull
     @Override
-    public GreenHouseListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeviceListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.greenhouse, parent, false);
         return new ViewHolder(view);
@@ -31,7 +31,7 @@ public class GreenHouseListAdapter extends RecyclerView.Adapter<GreenHouseListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GreenHouse current = ghList.get(position);
+        Device current = ghList.get(position);
         holder.gHItemTitle.setText(current.getTitle());
         holder.ghHum.setText(current.getLatest().humidity+" %");
         holder.ghTemp.setText(current.getLatest().temperature+" °C");

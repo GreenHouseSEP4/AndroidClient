@@ -35,6 +35,7 @@ public class UserRepository {
         accessToken = new MutableLiveData<>();
 
         accessToken.setValue(new JWT("loading"));
+        //TODO but no longer relevant as we don't really need auth.
 //        refreshToken.setValue(new JWT(LocalStorage.getInstance().get("refreshToken")));
 //        refresh();
         email = LocalStorage.getInstance().get("email");
