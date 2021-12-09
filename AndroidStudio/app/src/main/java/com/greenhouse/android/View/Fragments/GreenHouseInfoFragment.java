@@ -57,10 +57,10 @@ public class GreenHouseInfoFragment extends Fragment {
        // backButton.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate());  /////// NAVIGATE TO THRESHOLD SETTING
 
         indicators = new ArrayList<>();
-        indicators.add(new Indicator(R.drawable.ic_sun_icon, "Light", getArguments().getInt("light")));
-        indicators.add(new Indicator(R.drawable.ic_thermostat_icon, "Temperature", getArguments().getInt("temperature")));
-        indicators.add(new Indicator(R.drawable.ic_humidity_icon, "Humidity", getArguments().getInt("humidity")));
-        indicators.add(new Indicator(R.drawable.ic_co2, "CO2", getArguments().getInt("co2")));
+        indicators.add(new Indicator(R.drawable.brightness, "Light", getArguments().getInt("light")));
+        indicators.add(new Indicator(R.drawable.temperature_half, "Temperature", getArguments().getInt("temperature")));
+        indicators.add(new Indicator(R.drawable.droplet_degree, "Humidity", getArguments().getInt("humidity")));
+        indicators.add(new Indicator(R.drawable.wind, "CO2", getArguments().getInt("co2")));
 
 
 
