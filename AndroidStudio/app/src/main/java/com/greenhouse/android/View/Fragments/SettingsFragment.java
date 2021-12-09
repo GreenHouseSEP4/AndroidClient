@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.greenhouse.android.R;
@@ -62,13 +63,15 @@ public class SettingsFragment extends Fragment {
         saveButton = getView().findViewById(R.id.settings_save_Button);
         deviceSelect = getView().findViewById(R.id.settings_devices_spinner);
 
-        List<Device> test = new ArrayList<>();
+        settingsViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Device>>() {
+            @Override
+            public void onChanged(List<Device> devices) {
+                ArrayAdapter<Device> spinnerCurrencyAdapter = new ArrayAdapter<Device>(getContext(), android.R.layout.simple_spinner_dropdown_item, devices);
+                deviceSelect.setAdapter(spinnerCurrencyAdapter);
+            }
+        });
 
-        test.add(new Device("some","location",1,1,1,1,1,1,1,1,1,1,1,1));
-        test.add(new Device("some2","location",2,2,2,2,2,2,2,2,2,2,2,2));
 
-        ArrayAdapter<Device> spinnerCurrencyAdapter = new ArrayAdapter<Device>(getContext(), android.R.layout.simple_spinner_dropdown_item, test);
-        deviceSelect.setAdapter(spinnerCurrencyAdapter);
 
         deviceSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
