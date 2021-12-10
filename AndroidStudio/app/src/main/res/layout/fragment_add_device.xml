@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp"
+    android:fillViewport="true"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".View.RegisterActivity" android:paddingBottom="100sp">
+
+        <TextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add new device:"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.049"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/add_save_Button"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="Save"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.864"
+            app:layout_constraintStart_toEndOf="@+id/page_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/add_devices_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="Device Id:"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/page_name" />
+
+        <EditText
+            android:id="@+id/add_devices_field"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="Id"
+            android:paddingLeft="10sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_devices_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.78"
+            app:layout_constraintStart_toEndOf="@+id/add_devices_text"
+            app:layout_constraintTop_toTopOf="@+id/add_devices_text"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/add_device_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Name:"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_devices_text" />
+
+        <EditText
+            android:id="@+id/add_device_name_field"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="Name"
+            android:paddingLeft="10sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_device_name_text"
+            app:layout_constraintEnd_toEndOf="@+id/add_devices_field"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/add_devices_field"
+            app:layout_constraintTop_toBottomOf="@+id/add_devices_field"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <TextView
+            android:id="@+id/add_target_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Target:"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_name_text" />
+
+        <TextView
+            android:id="@+id/add_target_temp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Temperature:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_target_text" />
+
+        <EditText
+            android:id="@+id/add_target_temp_field"
+            android:layout_width="180sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="Temperature in °C"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_target_temp_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.882"
+            app:layout_constraintStart_toEndOf="@+id/add_target_temp_text"
+            app:layout_constraintTop_toTopOf="@+id/add_target_temp_text"
+            app:layout_constraintVertical_bias="0.562" />
+        <TextView
+            android:id="@+id/add_target_hum_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Humidity:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_target_temp_text" />
+
+        <EditText
+            android:id="@+id/add_target_hum_field"
+            android:layout_width="180sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="Humidity in %"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_target_hum_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.913"
+            app:layout_constraintStart_toEndOf="@+id/add_target_hum_text"
+            app:layout_constraintTop_toTopOf="@+id/add_target_hum_text" />
+        <TextView
+            android:id="@+id/add_target_co2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="CO2:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_target_hum_text" />
+
+        <EditText
+            android:id="@+id/add_target_co2_field"
+            android:layout_width="180sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="CO2 in PPM"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_target_co2_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.934"
+            app:layout_constraintStart_toEndOf="@+id/add_target_co2_text"
+            app:layout_constraintTop_toTopOf="@+id/add_target_co2_text"
+            app:layout_constraintVertical_bias="0.562" />
+        <TextView
+            android:id="@+id/add_target_light_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Light:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_target_co2_text" />
+
+        <EditText
+            android:id="@+id/add_target_light_field"
+            android:layout_width="180sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="Light in Lumen"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_target_light_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.934"
+            app:layout_constraintStart_toEndOf="@+id/add_target_light_text"
+            app:layout_constraintTop_toTopOf="@+id/add_target_light_text"
+            app:layout_constraintVertical_bias="0.562" />
+
+        <TextView
+            android:id="@+id/add_threshold_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Notification threshold:"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_target_light_text" />
+
+        <TextView
+            android:id="@+id/add_threshold_temp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Temperature:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_text" />
+
+        <EditText
+            android:id="@+id/add_threshold_temp_min_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:background="@drawable/edittextdesign"
+            android:hint="min"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_temp_text"
+            app:layout_constraintEnd_toStartOf="@+id/add_threshold_temp_max_field"
+            app:layout_constraintHorizontal_bias="0.672"
+            app:layout_constraintStart_toEndOf="@+id/add_threshold_temp_text"
+            app:layout_constraintTop_toTopOf="@+id/add_threshold_temp_text"
+            app:layout_constraintVertical_bias="0.562" />
+
+        <EditText
+            android:id="@+id/add_threshold_temp_max_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="max"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_temp_min_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_threshold_temp_min_field"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/add_threshold_hum_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Humidity:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_temp_text" />
+
+        <EditText
+            android:id="@+id/add_threshold_hum_min_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="min"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_hum_text"
+            app:layout_constraintEnd_toEndOf="@+id/add_threshold_temp_min_field"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/add_threshold_temp_min_field"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_temp_min_field"
+            app:layout_constraintVertical_bias="0.615" />
+
+        <EditText
+            android:id="@+id/add_threshold_hum_max_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="max"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_hum_min_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_threshold_hum_min_field"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/add_threshold_co2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="CO2:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_hum_text" />
+
+        <EditText
+            android:id="@+id/add_threshold_co2_min_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="min"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_co2_text"
+            app:layout_constraintEnd_toEndOf="@+id/add_threshold_hum_min_field"
+            app:layout_constraintHorizontal_bias="0.795"
+            app:layout_constraintStart_toStartOf="@+id/add_threshold_hum_min_field"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_hum_min_field" />
+
+        <EditText
+            android:id="@+id/add_threshold_co2_max_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="max"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_co2_min_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_threshold_co2_min_field"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/add_threshold_light_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Light:"
+            android:textSize="18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_co2_text" />
+
+        <EditText
+            android:id="@+id/add_threshold_light_min_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="min"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_light_text"
+            app:layout_constraintEnd_toEndOf="@+id/add_threshold_co2_min_field"
+            app:layout_constraintStart_toStartOf="@+id/add_threshold_co2_min_field"
+            app:layout_constraintTop_toBottomOf="@+id/add_threshold_co2_min_field" />
+
+        <EditText
+            android:id="@+id/add_threshold_light_max_field"
+            android:layout_width="70sp"
+            android:layout_height="40sp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edittextdesign"
+            android:hint="max"
+            android:inputType="number"
+            android:paddingLeft="15sp"
+            android:textColor="#000000"
+            android:textColorHint="#9C9C9C"
+            app:layout_constraintBottom_toBottomOf="@+id/add_threshold_light_min_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_threshold_light_min_field"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

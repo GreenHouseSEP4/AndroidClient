@@ -124,6 +124,26 @@ public class DeviceRepository {
         });
     }
 
+    public void create(Device device) {
+        Call<Device> call = deviceAPI.create(device);
+        call.enqueue(new Callback<Device>() {
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                if (response.code() == 200) {
+                    Log.e("deviceAPI success","call: "+response.body());
+                } else {
+                    Log.e("deviceAPI not 200","call: "+response.code()+" "+response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                Log.i("Retrofit other", "The data could not reach you!" +t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
+
     public String ListToString(List devices) {
         StringBuilder returned = new StringBuilder();
         for(int i=0;i<devices.size();i++){

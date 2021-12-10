@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.DevicesViewModel;
 import com.greenhouse.android.Wrappers.Device;
@@ -28,6 +31,8 @@ public class HomeFragment extends Fragment {
     private DevicesViewModel devicesViewModel;
     private FragmentHomeBinding binding;
     RecyclerView recyclerViewMainPage;
+
+    FloatingActionButton addDevice;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,22 +59,20 @@ public class HomeFragment extends Fragment {
         recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewMainPage.hasFixedSize();
 
+        addDevice = root.findViewById(R.id.home_add_device_button);
 
-
-        //final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        addDevice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
+            public void onClick(View view) {
+                AddDeviceFragment nextFrag= new AddDeviceFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main_page, nextFrag, "AddDeviceFragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }
