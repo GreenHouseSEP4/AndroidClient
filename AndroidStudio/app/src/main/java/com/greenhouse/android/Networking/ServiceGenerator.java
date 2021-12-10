@@ -17,7 +17,7 @@ public class ServiceGenerator {
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + LocalStorage.getInstance().get("access_token"))
+                    .addHeader("api-key", "somethingdifficult")
                     .build();
             return chain.proceed(newRequest);
         }
@@ -32,18 +32,18 @@ public class ServiceGenerator {
             .baseUrl("https://greenauth.ddlele.com/")
             .addConverterFactory(GsonConverterFactory.create());
 
-    private static Retrofit retrofit = retrofitBuilder.build();
+    private static Retrofit retrofit = retrofitBuilder.client(client).build();
     private static Retrofit retrofitAuth = authBuilder.build();
 
 
 
-    private static GreenhouseAPI greenhouseAPI = retrofit.create(GreenhouseAPI.class);
+    private static DeviceAPI deviceAPI = retrofit.create(DeviceAPI.class);
     private static UserAPI userAPI = retrofitAuth.create(UserAPI.class);
     private static AuthAPI authAPI = retrofitAuth.create(AuthAPI.class);
 
-    public static GreenhouseAPI getGreenhouseAPI()
+    public static DeviceAPI getGreenhouseAPI()
     {
-        return greenhouseAPI;
+        return deviceAPI;
     }
     public static UserAPI getUserAPI()
     {

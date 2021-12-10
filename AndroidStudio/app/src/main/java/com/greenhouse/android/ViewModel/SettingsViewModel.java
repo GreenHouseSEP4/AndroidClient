@@ -4,16 +4,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.greenhouse.android.Model.DeviceRepository;
+import com.greenhouse.android.Wrappers.Device;
+
+import java.util.List;
 public class SettingsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+
+    private static DeviceRepository deviceRepository;
 
     public SettingsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is settings fragment");
+        deviceRepository = DeviceRepository.getInstance();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Device>> getAll(){
+        return deviceRepository.getAll();
+    }
+
+    public void updateDevice(Device device){
+        deviceRepository.update(device);
     }
 }
