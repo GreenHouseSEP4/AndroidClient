@@ -16,10 +16,12 @@ import java.util.List;
 public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolderInfo>{
 
     List<Indicator> indicators;
+    private final OnListItemClickListener onListItemClickListener;
 
-    public InfoAdapter(List<Indicator> indicators)
+    public InfoAdapter(List<Indicator> indicators, OnListItemClickListener listener)
     {
         this.indicators = indicators;
+        this.onListItemClickListener = listener;
     }
 
 
@@ -45,7 +47,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolderInfo
         return indicators.size();
     }
 
-    public class ViewHolderInfo extends RecyclerView.ViewHolder {
+    public class ViewHolderInfo extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView infoIcon;
         TextView infoLabel;
         TextView infoShow;
@@ -56,5 +58,15 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolderInfo
             infoLabel = itemView.findViewById(R.id.indicatorLabel);
             infoShow = itemView.findViewById(R.id.showInfo);
         }
+
+        @Override
+        public void onClick(View v) {
+            onListItemClickListener.onListItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnListItemClickListener
+    {
+        void onListItemClick(int clickedItemIndex);
     }
 }

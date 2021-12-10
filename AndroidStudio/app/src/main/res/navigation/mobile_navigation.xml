@@ -35,4 +35,9 @@
         android:label="Details"
         tools:layout="@layout/fragment_greenhouse_show"/>
 
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.greenhouse.android.View.Fragments.ChartFragment"
+        android:label="Line Chart"
+        tools:layout="@layout/fragment_chart"/>
 </navigation>

@@ -23,7 +23,7 @@ import com.greenhouse.android.Wrappers.GreenHouse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GreenHouseInfoFragment extends Fragment {
+public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnListItemClickListener {
 
     GreenHouseInfoVM viewModel;
     InfoAdapter adapter;
@@ -53,7 +53,7 @@ public class GreenHouseInfoFragment extends Fragment {
         backButton = view.findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_home));
 
-        setThreshold = view.findViewById(R.id.set_values);
+       // setThreshold = view.findViewById(R.id.set_values);
        // backButton.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate());  /////// NAVIGATE TO THRESHOLD SETTING
 
         indicators = new ArrayList<>();
@@ -64,7 +64,7 @@ public class GreenHouseInfoFragment extends Fragment {
 
 
 
-        adapter = new InfoAdapter(indicators);
+        adapter = new InfoAdapter(indicators, this);
 
         indicatorsRecycler = view.findViewById(R.id.infoRecycler);
         indicatorsRecycler.hasFixedSize();
@@ -73,5 +73,11 @@ public class GreenHouseInfoFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_chart);
+
     }
 }
