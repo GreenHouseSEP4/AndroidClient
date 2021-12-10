@@ -24,9 +24,10 @@ import com.greenhouse.android.View.Adapters.DeviceListAdapter;
 import com.greenhouse.android.ViewModel.HomeViewModel;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnListItemClickListener {
+public class HomeFragment extends Fragment implements DeviceListAdapter.OnListItemClickListener {
 
     private HomeViewModel homeViewModel;
     private DevicesViewModel devicesViewModel;
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnLi
 
     FloatingActionButton addDevice;
 
-    List<GreenHouse> ghList;  // Moved it outside of the method so the clicklistener works.
+    List<Device> ghList;  // Moved it outside of the method so the clicklistener works.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnLi
         devicesViewModel = new ViewModelProvider(this).get(DevicesViewModel.class);
 
         ghList = new ArrayList<>();
-        GreenHouseListAdapter adapter = new GreenHouseListAdapter(ghList, this);
+        DeviceListAdapter adapter = new DeviceListAdapter(ghList, this);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -53,7 +54,7 @@ public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnLi
         devicesViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Device>>() {
             @Override
             public void onChanged(List<Device> devices) {
-                DeviceListAdapter adapter = new DeviceListAdapter(devices);
+                DeviceListAdapter adapter = new DeviceListAdapter(devices,this);
                 recyclerViewMainPage.setAdapter(adapter);
             }
         });
@@ -86,7 +87,7 @@ public class HomeFragment extends Fragment implements GreenHouseListAdapter.OnLi
     public void onListItemClick(int clickedItemIndex) {
 
         Bundle bundle = new Bundle();
-            bundle.putString("name", ghList.get(clickedItemIndex).getTitle());
+            bundle.putString("name", ghList.get(clickedItemIndex).getLocation());
             bundle.putInt("temperature", ghList.get(clickedItemIndex).getLatest().getTemperature());
             bundle.putInt("light", ghList.get(clickedItemIndex).getLatest().getLight());
             bundle.putInt("co2", ghList.get(clickedItemIndex).getLatest().getCo2());

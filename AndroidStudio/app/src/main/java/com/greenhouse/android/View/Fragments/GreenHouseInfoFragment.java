@@ -18,7 +18,7 @@ import com.greenhouse.android.R;
 import com.greenhouse.android.View.RecyclerViewInfo.Indicator;
 import com.greenhouse.android.View.RecyclerViewInfo.InfoAdapter;
 import com.greenhouse.android.ViewModel.GreenHouseInfoVM;
-import com.greenhouse.android.Wrappers.GreenHouse;
+import com.greenhouse.android.Wrappers.Device;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnLi
     GreenHouseInfoVM viewModel;
     InfoAdapter adapter;
     RecyclerView indicatorsRecycler;
-    GreenHouse greenHouseToShow;
+    Device greenHouseToShow;
     List<Indicator> indicators;
     TextView name;
     ImageView greenHouseImage;
