@@ -21,7 +21,6 @@ public class ChartFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
-
         reportChart = view.findViewById(R.id.reportChartView);
         reportChart.setTouchEnabled(true);
         reportChart.setPinchZoom(true);
