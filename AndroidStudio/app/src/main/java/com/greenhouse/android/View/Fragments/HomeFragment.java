@@ -51,13 +51,7 @@ public class HomeFragment extends Fragment implements DeviceListAdapter.OnListIt
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        devicesViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Device>>() {
-            @Override
-            public void onChanged(List<Device> devices) {
-                DeviceListAdapter adapter = new DeviceListAdapter(devices,this);
-                recyclerViewMainPage.setAdapter(adapter);
-            }
-        });
+        devicesViewModel.getAll().observe(getViewLifecycleOwner(), adapter::updateData);
 
 
         //recycler view set up

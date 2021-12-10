@@ -23,6 +23,11 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         this.listener = listener;
     }
 
+    public void updateData(List<Device> ghList)
+    {
+        this.ghList = ghList;
+    }
+
     @NonNull
     @Override
     public DeviceListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
