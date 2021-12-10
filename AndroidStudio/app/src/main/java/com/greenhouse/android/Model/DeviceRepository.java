@@ -69,9 +69,16 @@ public class DeviceRepository {
                             public void onResponse(Call<GreenData> call, Response<GreenData> response) {
                                 if (response.code() == 200) {
                                     current[0].setLatest(response.body());
+                                    Log.e("green response green-data","call: "+response.body());
+                                    if (current[0] != null) {
+                                        currentAll.add(current[0]);
+                                    }
+                                    allDevices.setValue(currentAll);
+                                    Log.e("deviceAPI response","call: "+current[0]);
+                                    Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
                                 } else {
-                                    Log.e("deviceAPI","call: "+response.code()+" "+response.message());
-                                    Log.e("deviceAPI","call: "+response.raw().toString());
+                                    Log.e("green response","call: "+response.code()+" "+response.message());
+                                    Log.e("green response","call: "+response.raw().toString());
                                 }
                             }
                             @EverythingIsNonNull
@@ -93,13 +100,7 @@ public class DeviceRepository {
                     Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
                 }
             });
-            System.out.println(current[0]);
-            if (current[0] != null) {
-                currentAll.add(current[0]);
-            }
         }
-        allDevices.setValue(currentAll);
-        System.out.println("all devices: "+allDevices.getValue().size());
 //        System.out.println(allDevices.getValue().get(0));
         return allDevices;
     }

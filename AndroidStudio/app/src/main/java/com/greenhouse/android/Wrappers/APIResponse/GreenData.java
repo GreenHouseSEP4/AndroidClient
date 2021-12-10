@@ -66,4 +66,16 @@ public class GreenData {
     public void setCo2(int co2) {
         this.co2 = co2;
     }
+
+    @Override
+    public String toString() {
+        return "GreenData{" +
+                "id=" + id +
+                ", date=" + date +
+                ", humidity=" + humidity +
+                ", temperature=" + temperature +
+                ", light=" + light +
+                ", co2=" + co2 +
+                '}';
+    }
 }
