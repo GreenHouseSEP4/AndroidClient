@@ -59,23 +59,7 @@ public class Device {
 
     @Override
     public String toString() {
-        return "Device{" +
-                "eui='" + eui + '\'' +
-                ", location='" + location + '\'' +
-                ", minTemperature=" + minTemperature +
-                ", maxTemperature=" + maxTemperature +
-                ", minHumidity=" + minHumidity +
-                ", maxHumidity=" + maxHumidity +
-                ", minCO2=" + minCO2 +
-                ", maxCO2=" + maxCO2 +
-                ", minLight=" + minLight +
-                ", maxLight=" + maxLight +
-                ", targetTemperature=" + targetTemperature +
-                ", targetHumidity=" + targetHumidity +
-                ", targetLight=" + targetLight +
-                ", targetCO2=" + targetCO2 +
-                ", lastData=" + lastData +
-                '}';
+        return eui;
     }
 
     public String getEui() {

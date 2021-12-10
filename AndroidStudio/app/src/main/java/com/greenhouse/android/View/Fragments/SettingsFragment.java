@@ -1,5 +1,6 @@
 package com.greenhouse.android.View.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.greenhouse.android.R;
+import com.greenhouse.android.View.LoginActivity;
+import com.greenhouse.android.View.RegisterActivity;
 import com.greenhouse.android.ViewModel.SettingsViewModel;
 import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.databinding.FragmentSettingsBinding;
@@ -109,6 +112,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 updateDevice();
+                getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main_page, new HomeFragment()).addToBackStack(null).commit();
             }
         });
     }
