@@ -26,6 +26,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     public void updateData(List<Device> ghList)
     {
         this.ghList = ghList;
+        notifyDataSetChanged();
     }
 
     @NonNull

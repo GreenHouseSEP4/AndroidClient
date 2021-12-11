@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment implements DeviceListAdapter.OnListIt
         //recycler view set up
         recyclerViewMainPage = root.findViewById(R.id.mainPageRecyclerView);
         recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewMainPage.setAdapter(adapter);
         recyclerViewMainPage.hasFixedSize();
 
         addDevice = root.findViewById(R.id.home_add_device_button);
