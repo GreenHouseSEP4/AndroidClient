@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,11 +65,7 @@ public class HomeFragment extends Fragment {
         addDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddDeviceFragment nextFrag= new AddDeviceFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main_page, nextFrag, "AddDeviceFragment")
-                        .addToBackStack(null)
-                        .commit();
+                Navigation.findNavController(view).navigate(R.id.navigation_add_device);
             }
         });
 

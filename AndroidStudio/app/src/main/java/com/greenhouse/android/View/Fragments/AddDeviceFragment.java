@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.AddDeviceViewModel;
@@ -108,6 +109,8 @@ public class AddDeviceFragment extends Fragment {
             Device updated = new Device(id,newName,tempThresholdMin,tempThresholdMax,humThresholdMin,humThresholdMax,co2ThresholdMin,co2ThresholdMax,lightThresholdMin,lightThresholdMax,tempTarget,humTarget,lightTarget,co2Target);
 
             addDeviceViewModel.createDevice(updated);
+            Navigation.findNavController(getActivity(), R.id.fragment_add_device).navigate(R.id.navigation_home);
+
         } catch (Exception e) {
             Toast.makeText(getContext(), "Only whole numbers allowed!", Toast.LENGTH_SHORT).show();
         }
