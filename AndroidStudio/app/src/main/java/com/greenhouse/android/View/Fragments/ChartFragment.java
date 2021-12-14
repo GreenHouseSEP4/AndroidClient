@@ -20,11 +20,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.ChartViewModel;
+import com.greenhouse.android.ViewModel.available_times;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,32 +36,29 @@ public class ChartFragment extends Fragment {
     LineChart reportChart;
     ChartViewModel viewModel;
     Date now;
-    Date before;
     TextView minutes;
     TextView hour;
     TextView day;
     TextView month;
     TextView year;
-    long timeToLong;
-    long timeChosen;
+    available_times timeChosen;
     String eui;
 
-    List<GreenData> dataToShow;
+    final int noOfPoints = 25;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        timeChosen = TimeUnit.MINUTES.toMillis(15);
+        timeChosen = available_times.minutes15;
         eui = getArguments().getString("eui");
 
-        now = new Date(System.currentTimeMillis());
-        timeToLong =  now.getTime();
-        before =new Date(timeToLong - (10 * timeChosen));
+        now = new Date();
 
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
         viewModel = new ViewModelProvider(this).get(ChartViewModel.class);
-        viewModel.getChartData(eui, before, now).observe(getViewLifecycleOwner(), this::updateData);
+        viewModel.getChartData(eui,now, timeChosen,noOfPoints).observe(getViewLifecycleOwner(), this::updateData);
 
         minutes = view.findViewById(R.id.minutes);
         hour = view.findViewById(R.id.hour);
@@ -67,52 +66,38 @@ public class ChartFragment extends Fragment {
         month = view.findViewById(R.id.month);
         year = view.findViewById(R.id.year);
 
-        minutes.setOnClickListener(v -> {
-            timeChosen = TimeUnit.MINUTES.toMillis(15);
-            getData();
-            setDataValues();
-        });
-        hour.setOnClickListener(v -> {
-            timeChosen = TimeUnit.HOURS.toMillis(4);
-            getData();
-            setDataValues();
-        });
-        day.setOnClickListener(v-> {
-            timeChosen = TimeUnit.DAYS.toMillis(1);
-            getData();
-            setDataValues();
-        });
-        month.setOnClickListener(v-> {
-            timeChosen = TimeUnit.DAYS.toMillis(30);
-            getData();
-            setDataValues();
-        });
-        year.setOnClickListener(v-> {
-            timeChosen = TimeUnit.DAYS.toMillis(365);
-            getData();
-            setDataValues();
-        });
-
         reportChart = view.findViewById(R.id.reportChartView);
         reportChart.setTouchEnabled(true);
         reportChart.setPinchZoom(true);
 
-        LineDataSet dataSet = new LineDataSet(setDataValues(), getArguments().getString("key"));
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet);
-
-        LineData data = new LineData(dataSets);
-        reportChart.setData(data);
-        reportChart.invalidate();
+        minutes.setOnClickListener(v -> {
+            timeChosen = available_times.minutes15;
+            getData();
+        });
+        hour.setOnClickListener(v -> {
+            timeChosen = available_times.hours4;
+            getData();
+        });
+        day.setOnClickListener(v-> {
+            timeChosen = available_times.days1;
+            getData();
+        });
+        month.setOnClickListener(v-> {
+            timeChosen = available_times.months1;
+            getData();
+        });
+        year.setOnClickListener(v-> {
+            timeChosen = available_times.years1;
+            getData();
+        });
 
         return view;
     }
 
     @NonNull
-    private ArrayList<Entry> setDataValues()
+    private ArrayList<Entry> setDataValues(List<GreenData> dataToShow)
     {
          ArrayList<Entry> dataValues = new ArrayList<>();
-         dataToShow = viewModel.getChartData(eui, before, now).getValue();
          for(int i = 0; i < dataToShow.size(); i++)
          {
              if(getArguments().getString("key").equals("light"))
@@ -155,12 +140,17 @@ public class ChartFragment extends Fragment {
 
     public void getData()
     {
-        before =new Date(timeToLong - (10 * timeChosen));
-        dataToShow =  viewModel.getChartData(eui, now, before).getValue();
+        viewModel.getChartData(eui, now, timeChosen,noOfPoints);
     }
 
-    public void updateData(List<GreenData> data)
+    public void updateData(List<GreenData> newData)
     {
-        dataToShow = data;
+        LineDataSet dataSet = new LineDataSet(setDataValues(newData), getArguments().getString("key"));
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+
+        LineData data = new LineData(dataSets);
+        reportChart.setData(data);
+        reportChart.invalidate();
     }
 }

@@ -11,6 +11,12 @@ import com.greenhouse.android.Util.LocalStorage;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 import com.greenhouse.android.Wrappers.Device;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -225,7 +231,17 @@ public class DeviceRepository {
     public MutableLiveData<List<GreenData>> getDeviceInterval(String id, Date start, Date end)
     {
         currentData = new ArrayList<>();
-        Call<List<GreenData>> call = deviceAPI.getIntervalData(id, start, end);
+
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        String dstart = df.format(start);
+        String dend = df.format(end);
+        Log.i("start date",dstart);
+        Log.i("end date",dend);
+
+        Call<List<GreenData>> call = deviceAPI.getIntervalData(id, dstart, dend);
         call.enqueue(new Callback<List<GreenData>>() {
             @Override
             public void onResponse(Call<List<GreenData>> call, Response<List<GreenData>> response) {
@@ -233,7 +249,11 @@ public class DeviceRepository {
                 {
                     currentData = response.body();
                     intervalData.setValue(currentData);
+                    Log.i("Retrofit", "response 200 " + response.body().size());
+                }else{
+                    Log.i("Retrofit", "response not 200 " + response.code()+" "+response.message()+"\n "+response.raw().request().url());
                 }
+
             }
 
             @Override
