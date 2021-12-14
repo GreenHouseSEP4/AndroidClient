@@ -1,7 +1,12 @@
 package com.greenhouse.android.Wrappers.APIResponse;
 
+import androidx.room.TypeConverters;
+
+import com.greenhouse.android.Util.Converters;
+
 import java.util.Date;
 
+@TypeConverters(Converters.class)
 public class GreenData {
     public int id;
     public Date date;

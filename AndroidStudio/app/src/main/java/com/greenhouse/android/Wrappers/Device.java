@@ -1,6 +1,7 @@
 package com.greenhouse.android.Wrappers;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -25,9 +26,9 @@ public class Device {
     public int targetLight;
     public int targetCO2;
 
-    @Ignore
+    @Embedded
     public GreenData lastData;
-    @Ignore
+
     public GreenData getLatest() {
         return lastData;
     }

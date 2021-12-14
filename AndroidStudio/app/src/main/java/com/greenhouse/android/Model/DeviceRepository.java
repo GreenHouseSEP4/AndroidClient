@@ -3,6 +3,7 @@ package com.greenhouse.android.Model;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.greenhouse.android.Networking.DeviceAPI;
@@ -34,6 +35,7 @@ public class DeviceRepository {
 
 
     private MutableLiveData<List<Device>> allDevices;
+    private LiveData<List<Device>> allDeviceLocal;
     private MutableLiveData<List<GreenData>> intervalData;
 
     private List<String> userDevices;
@@ -42,6 +44,7 @@ public class DeviceRepository {
         GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
         allDevices = new MutableLiveData<>();
+
         intervalData = new MutableLiveData<>();
         userDevices = StringToList(LocalStorage.getInstance().get("devices"));
         Log.e("user devices",userDevices+"");
@@ -63,7 +66,7 @@ public class DeviceRepository {
         return instance;
     }
 
-    public MutableLiveData<List<Device>> getAll(){
+    public LiveData<List<Device>> getAll(){
         List<Device> currentAll = new ArrayList<>();
         for(int i=0;i<userDevices.size();i++){
 
@@ -97,6 +100,7 @@ public class DeviceRepository {
                                     //Local Data
                                     deleteAllDevices();
                                     insertAllInLocal(currentAll);
+                                    Log.e("localStorage: ", "update: " + currentAll);
 
                                     Log.e("deviceAPI response","call: "+current[0]);
                                     Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
@@ -143,14 +147,19 @@ public class DeviceRepository {
 
 
                     //Getting the previous data from the local database
-                    allDevices = (MutableLiveData<List<Device>>) deviceDao.getAllLocal();
+                    //LiveData<List<Device>> tempLocalList = deviceDao.getAllLocal();
+                    //Assigning to the devices
+                    //allDevices.setValue();
+
+
                 }
             });
         }
         allDevices.setValue(currentAll);
         deleteAllDevices();
         insertAllInLocal(currentAll);
-        return allDevices;
+        
+        return deviceDao.getAllLocal();
     }
 
     public void update(Device device) {
