@@ -40,6 +40,7 @@ public class DeviceRepository {
 
 
     private MutableLiveData<List<Device>> allDevices;
+    private LiveData<List<Device>> allDeviceLocal;
     private MutableLiveData<List<GreenData>> intervalData;
 
     private MutableLiveData<Device> deviceToView;
@@ -54,6 +55,7 @@ public class DeviceRepository {
         GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
         allDevices = new MutableLiveData<>();
+
         intervalData = new MutableLiveData<>();
         userDevices = StringToList(LocalStorage.getInstance().get("devices"));
         Log.e("user devices",userDevices+"");
@@ -78,6 +80,7 @@ public class DeviceRepository {
         return instance;
     }
 
+    public LiveData<List<Device>> getAll(){
     public MutableLiveData<Device> getDeviceToView(String eui) {
         getDevice(eui);
         return deviceToView;
@@ -138,6 +141,7 @@ public class DeviceRepository {
                                     //Local Data
                                     deleteAllDevices();
                                     insertAllInLocal(currentAll);
+                                    Log.e("localStorage: ", "update: " + currentAll);
 
                                     Log.e("deviceAPI response","call: "+current[0]);
                                     Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
@@ -184,14 +188,19 @@ public class DeviceRepository {
 
 
                     //Getting the previous data from the local database
-                    allDevices = (MutableLiveData<List<Device>>) deviceDao.getAllLocal();
+                    //LiveData<List<Device>> tempLocalList = deviceDao.getAllLocal();
+                    //Assigning to the devices
+                    //allDevices.setValue();
+
+
                 }
             });
         }
         allDevices.setValue(currentAll);
         deleteAllDevices();
         insertAllInLocal(currentAll);
-        return allDevices;
+
+        return deviceDao.getAllLocal();
     }
 
     public void update(Device device) {

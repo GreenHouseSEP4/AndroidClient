@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.greenhouse.android.Wrappers.Device;
 
 
-@Database(entities = {Device.class}, version = 1)
+@Database(entities = {Device.class}, version = 2)
 public abstract class GreenHouseDatabase extends RoomDatabase {
     private static GreenHouseDatabase instance;
     public abstract DeviceDao getDeviceDao();
