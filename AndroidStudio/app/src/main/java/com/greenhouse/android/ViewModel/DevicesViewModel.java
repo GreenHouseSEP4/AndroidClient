@@ -1,5 +1,8 @@
 package com.greenhouse.android.ViewModel;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -8,12 +11,13 @@ import com.greenhouse.android.Wrappers.Device;
 
 import java.util.List;
 
-public class DevicesViewModel extends ViewModel {
+public class DevicesViewModel extends AndroidViewModel {
     DeviceRepository repository;
 
-    public DevicesViewModel()
+    public DevicesViewModel(Application application)
     {
-        repository = DeviceRepository.getInstance();
+        super(application);
+        repository = DeviceRepository.getInstance(application);
     }
 
     public LiveData<List<Device>> getAll(){
