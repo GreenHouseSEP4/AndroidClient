@@ -40,12 +40,12 @@ public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        viewModel = new ViewModelProvider(this).get(GreenHouseInfoVM.class);
+        //viewModel = new ViewModelProvider(this).get(GreenHouseInfoVM.class);
 
         View view = inflater.inflate(R.layout.fragment_greenhouse_show, container, false);
 
         name = view.findViewById(R.id.greenhouse_name);
-        name.setText(getArguments().getString("name"));
+        name.setText(getArguments().getString("location"));
 
         greenHouseImage = view.findViewById(R.id.greenHouse_image);
         greenHouseImage.setImageResource(R.drawable.gh1);
@@ -77,7 +77,27 @@ public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnLi
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_chart);
+        Bundle bundle = new Bundle();
+        bundle.putString("eui", getArguments().getString("eui"));
+        if(clickedItemIndex == 0)
+        {
+            bundle.putString("key", "light");
+        }
+        else if ( clickedItemIndex == 1)
+        {
+            bundle.putString("key", "temperature");
+        }
+        else if (clickedItemIndex == 2)
+        {
+            bundle.putString("key", "humidity");
+        }
+        else if (clickedItemIndex == 3)
+        {
+            bundle.putString("key", "co2");
+        }
+
+
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_chart, bundle);
 
     }
 }

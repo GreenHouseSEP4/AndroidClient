@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,28 +7,102 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/ValueType"
+        android:id="@+id/targetField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="108dp"
         android:layout_weight="1"
-        android:layout_gravity="center"
-        android:textSize="30dp"
+        android:scrollbarSize="20dp"
         android:text="ValueType"
-        android:scrollbarSize="20dp"/>
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="32dp"
+        android:text="Target"
+        app:layout_constraintBottom_toTopOf="@+id/ValueType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/reportChartView"
         android:layout_width="match_parent"
-        android:layout_height="521dp"
-        android:layout_weight="2" />
+        android:layout_height="366dp"
+        android:layout_marginBottom="72dp"
+        android:layout_weight="2"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:textSize="30dp"
-        android:text="TextView" />
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:text="1d"
+        app:layout_constraintEnd_toStartOf="@+id/month"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="38dp"
+        android:text="1h"
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="38dp"
+        android:text="1m"
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/year"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="38dp"
+        android:text="15m"
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/hour"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="38dp"
+        android:text="1y"
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

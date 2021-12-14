@@ -57,6 +57,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolderInfo
             infoIcon = itemView.findViewById(R.id.indicatorIcon);
             infoLabel = itemView.findViewById(R.id.indicatorLabel);
             infoShow = itemView.findViewById(R.id.showInfo);
+            itemView.setOnClickListener(this);
         }
 
         @Override

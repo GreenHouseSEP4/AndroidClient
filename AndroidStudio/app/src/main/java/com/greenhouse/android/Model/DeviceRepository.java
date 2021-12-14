@@ -2,6 +2,7 @@ package com.greenhouse.android.Model;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.greenhouse.android.Networking.DeviceAPI;
@@ -12,6 +13,7 @@ import com.greenhouse.android.Wrappers.Device;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,8 +27,10 @@ public class DeviceRepository {
 
     private MutableLiveData<List<Device>> allDevices;
     private MutableLiveData<List<GreenData>> intervalData;
+    private List<GreenData> currentData;
 
     private List<String> userDevices;
+     private List<GreenData> greenList;
 
     public DeviceRepository() {
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
@@ -216,5 +220,27 @@ public class DeviceRepository {
     }
     private void saveUserDevices() {
         LocalStorage.getInstance().set("devices",ListToString(userDevices));
+    }
+
+    public MutableLiveData<List<GreenData>> getDeviceInterval(String id, Date start, Date end)
+    {
+        currentData = new ArrayList<>();
+        Call<List<GreenData>> call = deviceAPI.getIntervalData(id, start, end);
+        call.enqueue(new Callback<List<GreenData>>() {
+            @Override
+            public void onResponse(Call<List<GreenData>> call, Response<List<GreenData>> response) {
+                if(response.code() == 200)
+                {
+                    currentData = response.body();
+                    intervalData.setValue(currentData);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GreenData>> call, Throwable t) {
+                Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
+            }
+        });
+        return intervalData;
     }
 }

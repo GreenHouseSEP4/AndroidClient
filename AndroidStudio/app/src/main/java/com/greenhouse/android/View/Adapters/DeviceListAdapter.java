@@ -16,7 +16,7 @@ import java.util.List;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
 
     final private OnListItemClickListener listener;
-    List<Device> ghList;
+    public List<Device> ghList;
 
     public DeviceListAdapter (List<Device> ghList, OnListItemClickListener listener){
         this.ghList = ghList;
