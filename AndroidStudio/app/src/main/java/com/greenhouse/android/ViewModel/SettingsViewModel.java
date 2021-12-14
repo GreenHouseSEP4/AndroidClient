@@ -24,4 +24,7 @@ public class SettingsViewModel extends ViewModel {
     public void updateDevice(Device device){
         deviceRepository.update(device);
     }
+    public void deleteDevice(String deviceEUI){
+        deviceRepository.delete(deviceEUI);
+    }
 }

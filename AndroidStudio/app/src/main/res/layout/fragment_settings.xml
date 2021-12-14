@@ -425,6 +425,18 @@
             app:layout_constraintTop_toTopOf="@+id/settings_threshold_light_min_field"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/settings_deleteDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:textColor="#FF0000"
+            android:text="Delete device"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_threshold_light_text" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
