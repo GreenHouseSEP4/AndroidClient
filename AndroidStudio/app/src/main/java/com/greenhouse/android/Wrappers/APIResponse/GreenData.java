@@ -19,6 +19,15 @@ public class GreenData {
         this.co2 = co2;
     }
 
+    public GreenData() {
+        this.humidity = -1;
+        this.temperature = -1;
+        this.light = -1;
+        this.co2 = -1;
+        this.date = new Date();
+        this.id = -1;
+    }
+
     public int getId() {
         return id;
     }

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.greenhouse.android.R;
 import com.greenhouse.android.View.LoginActivity;
@@ -52,6 +54,7 @@ public class SettingsFragment extends Fragment {
     private EditText thresholdMaxHum;
     private EditText thresholdMaxCO2;
     private EditText thresholdMaxLight;
+    private TextView deleteDevice;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class SettingsFragment extends Fragment {
         });
 
         name = getView().findViewById(R.id.settings_device_name_field);
+        deleteDevice = getView().findViewById(R.id.settings_deleteDevice);
 
         targetTemp = getView().findViewById(R.id.settings_target_temp_field);
         targetHum = getView().findViewById(R.id.settings_target_hum_field);
@@ -112,7 +116,17 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 updateDevice();
-                getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main_page, new HomeFragment()).addToBackStack(null).commit();
+                Navigation.findNavController(getActivity(), R.id.settings_fragment).navigate(R.id.navigation_home);
+            }
+        });
+
+        deleteDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Device current = (Device)deviceSelect.getSelectedItem();
+                String id = current.eui;
+                settingsViewModel.deleteDevice(id);
+                Navigation.findNavController(getActivity(), R.id.settings_fragment).navigate(R.id.navigation_home);
             }
         });
     }

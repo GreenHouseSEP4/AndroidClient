@@ -8,23 +8,16 @@ import com.greenhouse.android.Model.DeviceRepository;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.List;
-public class SettingsViewModel extends ViewModel {
+public class AddDeviceViewModel extends ViewModel {
 
 
     private static DeviceRepository deviceRepository;
 
-    public SettingsViewModel() {
+    public AddDeviceViewModel() {
         deviceRepository = DeviceRepository.getInstance();
     }
 
-    public LiveData<List<Device>> getAll(){
-        return deviceRepository.getAll();
-    }
-
-    public void updateDevice(Device device){
-        deviceRepository.update(device);
-    }
-    public void deleteDevice(String deviceEUI){
-        deviceRepository.delete(deviceEUI);
+    public void createDevice(Device device){
+        deviceRepository.create(device);
     }
 }

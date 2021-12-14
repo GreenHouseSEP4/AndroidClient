@@ -22,4 +22,9 @@
         android:name="com.greenhouse.android.View.Fragments.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_add_device"
+        android:name="com.greenhouse.android.View.Fragments.AddDeviceFragment"
+        android:label="Add Device"
+        tools:layout="@layout/fragment_add_device" />
 </navigation>

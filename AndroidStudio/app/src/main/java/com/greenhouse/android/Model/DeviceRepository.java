@@ -32,9 +32,8 @@ public class DeviceRepository {
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
         allDevices = new MutableLiveData<>();
         intervalData = new MutableLiveData<>();
-        // TODO uncomment when done implementing device add
-        userDevices = StringToList("0004A30B00259D2C");
-//        userDevices = StringToList(LocalStorage.getInstance().get("devices"));
+        userDevices = StringToList(LocalStorage.getInstance().get("devices"));
+        Log.e("user devices",userDevices+"");
         getAll();
     }
 
@@ -52,14 +51,15 @@ public class DeviceRepository {
             final Device[] current = new Device[1];
 
             Call<Device> call = deviceAPI.get(userDevices.get(i));
+            Log.e("user devices",userDevices+"");
             int finalI = i;
             call.enqueue(new Callback<Device>() {
                 @EverythingIsNonNull
                 @Override
                 public void onResponse(Call<Device> call, Response<Device> response) {
-                    if (response.code() == 200) {
+                    if (response.code() == 200 && response.body()!=null) {
                         current[0] = response.body();
-                        Log.e("deviceAPI","response: "+response.body());
+                        Log.e("get all devices","response: "+response.body());
 
 
                         Call<GreenData> call2 = deviceAPI.getLastData(userDevices.get(finalI));
@@ -69,39 +69,50 @@ public class DeviceRepository {
                             public void onResponse(Call<GreenData> call, Response<GreenData> response) {
                                 if (response.code() == 200) {
                                     current[0].setLatest(response.body());
-                                    Log.e("green response green-data","call: "+response.body());
                                     if (current[0] != null) {
                                         currentAll.add(current[0]);
+                                        allDevices.setValue(currentAll);
                                     }
-                                    allDevices.setValue(currentAll);
+                                    Log.e("green response green-data","call: "+response.body());
                                     Log.e("deviceAPI response","call: "+current[0]);
                                     Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
                                 } else {
+                                    current[0].setLatest(new GreenData());
+                                    if (current[0] != null) {
+                                        currentAll.add(current[0]);
+                                        allDevices.setValue(currentAll);
+                                    }
                                     Log.e("green response","call: "+response.code()+" "+response.message());
                                     Log.e("green response","call: "+response.raw().toString());
                                 }
+
                             }
                             @EverythingIsNonNull
                             @Override
                             public void onFailure(Call<GreenData> call, Throwable t) {
                                 Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
-                                Log.e("deviceAPI","call: "+call.toString());
-
+                                Log.e("no data for this device","call: "+call.toString());
+                                current[0].setLatest(new GreenData());
+                                if (current[0] != null) {
+                                    currentAll.add(current[0]);
+                                    allDevices.setValue(currentAll);
+                                }
                             }
                         });
                     } else {
-                        Log.e("deviceAPI","call: "+response.code()+" "+response.message());
-                        Log.e("deviceAPI","call: "+response.raw().toString());
+                        Log.e("get device call not 200","call: "+response.code()+" "+response.message());
+                        Log.e("get device call raw","call: "+response.raw().toString());
                     }
                 }
                 @EverythingIsNonNull
                 @Override
                 public void onFailure(Call<Device> call, Throwable t) {
-                    Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
+                    Log.i("get device failure", "The data could not reach you!" +t.getMessage());
+                    allDevices.setValue(currentAll);
                 }
             });
         }
-//        System.out.println(allDevices.getValue().get(0));
+        allDevices.setValue(currentAll);
         return allDevices;
     }
 
@@ -113,25 +124,97 @@ public class DeviceRepository {
                 if (response.code() == 200) {
                     System.out.println(response.body());
                 } else {
-                    Log.e("deviceAPI","call: "+response.code()+" "+response.message());
+                    Log.e("update device not 200","call: "+response.code()+" "+response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Device> call, Throwable t) {
-                Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
+                Log.i("Update dev failure", "The data could not reach you!" +t.getMessage());
             }
         });
     }
 
-    public String ListToString(List devices) {
+    public void create(Device device) {
+        Call<Device> call = deviceAPI.create(device);
+
+        call.enqueue(new Callback<Device>() {
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                if (response.code() == 200) {
+                    Log.e("create deviceAPI success","call: "+response.body());
+                    addUserDeviceLocal(device.eui);
+                    getAll();
+                } else {
+                    Log.e("create deviceAPI not 200","call: "+response.code()+" "+response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                Log.i("create Retrofit other", "The data could not reach you!" +t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+    }
+
+    public void delete(String deviceEUI) {
+        deleteDeviceLocal(deviceEUI);
+        Call<Device> call = deviceAPI.delete(deviceEUI);
+        call.enqueue(new Callback<Device>() {
+            @Override
+            public void onResponse(Call<Device> call, Response<Device> response) {
+                if (response.code() == 200) {
+                    Log.e("delete device success","call: "+response.body());
+                    getAll();
+                } else {
+                    Log.e("delete device not 200","call: "+response.code()+" "+response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Device> call, Throwable t) {
+                Log.i("Retrofit other", "The device cannot be deleted could not reach you!" +t.getMessage());
+                getAll();
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    public String ListToString(List<String> devices) {
         StringBuilder returned = new StringBuilder();
         for(int i=0;i<devices.size();i++){
+            if(!returned.toString().contains(devices.get(i))&&!devices.get(i).equals("default"))
             returned.append(returned).append(".").append(devices.get(i));
         }
         return returned.toString();
     }
     public List<String> StringToList(String devices) {
-       return new ArrayList<>(Arrays.asList(devices.split("\\.")));
+        List<String> all =new ArrayList<>(Arrays.asList(devices.split("\\.")));
+        List<String> nonDefault = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            if (!all.get(i).equals("default")&&!all.get(i).equals("")&&!nonDefault.contains(all.get(i))) {
+                nonDefault.add(all.get(i));
+            }
+        }
+        userDevices = nonDefault;
+        return nonDefault;
+    }
+
+    private void addUserDeviceLocal(String deviceEUI) {
+        if (!userDevices.contains(deviceEUI)) {
+            userDevices.add(deviceEUI);
+            saveUserDevices();
+        }
+    }
+    private void deleteDeviceLocal(String deviceEUI) {
+        userDevices.remove(deviceEUI);
+        saveUserDevices();
+
+    }
+    private void saveUserDevices() {
+        LocalStorage.getInstance().set("devices",ListToString(userDevices));
     }
 }
