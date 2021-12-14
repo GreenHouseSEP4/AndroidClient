@@ -1,5 +1,6 @@
 package com.greenhouse.android.Model;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -7,12 +8,16 @@ import androidx.lifecycle.MutableLiveData;
 import com.greenhouse.android.Networking.DeviceAPI;
 import com.greenhouse.android.Networking.ServiceGenerator;
 import com.greenhouse.android.Util.LocalStorage;
+import com.greenhouse.android.Util.RoomDatabase.DeviceDao;
+import com.greenhouse.android.Util.RoomDatabase.GreenHouseDatabase;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,23 +28,37 @@ public class DeviceRepository {
     private static DeviceRepository instance;
     private DeviceAPI deviceAPI;
 
+
+    private final DeviceDao deviceDao;
+    private final ExecutorService executorService;
+
+
     private MutableLiveData<List<Device>> allDevices;
     private MutableLiveData<List<GreenData>> intervalData;
 
     private List<String> userDevices;
 
-    public DeviceRepository() {
+    public DeviceRepository(Application application) {
+        GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
         allDevices = new MutableLiveData<>();
         intervalData = new MutableLiveData<>();
         userDevices = StringToList(LocalStorage.getInstance().get("devices"));
         Log.e("user devices",userDevices+"");
+        
+
+
+        //Initializing the local database
+        GreenHouseDatabase database = GreenHouseDatabase.getInstance(application);
+        deviceDao = database.getDeviceDao();
+        executorService = Executors.newFixedThreadPool(2);
+
         getAll();
     }
 
-    public static DeviceRepository getInstance(){
+    public static synchronized DeviceRepository getInstance(Application application){
         if(instance==null){
-            instance = new DeviceRepository();
+            instance = new DeviceRepository(application);
         }
         return instance;
     }
@@ -74,6 +93,11 @@ public class DeviceRepository {
                                         allDevices.setValue(currentAll);
                                     }
                                     Log.e("green response green-data","call: "+response.body());
+                                    allDevices.setValue(currentAll);
+                                    //Local Data
+                                    deleteAllDevices();
+                                    insertAllInLocal(currentAll);
+
                                     Log.e("deviceAPI response","call: "+current[0]);
                                     Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
                                 } else {
@@ -81,6 +105,8 @@ public class DeviceRepository {
                                     if (current[0] != null) {
                                         currentAll.add(current[0]);
                                         allDevices.setValue(currentAll);
+                                        deleteAllDevices();
+                                        insertAllInLocal(currentAll);
                                     }
                                     Log.e("green response","call: "+response.code()+" "+response.message());
                                     Log.e("green response","call: "+response.raw().toString());
@@ -96,6 +122,8 @@ public class DeviceRepository {
                                 if (current[0] != null) {
                                     currentAll.add(current[0]);
                                     allDevices.setValue(currentAll);
+                                    deleteAllDevices();
+                                    insertAllInLocal(currentAll);
                                 }
                             }
                         });
@@ -109,10 +137,19 @@ public class DeviceRepository {
                 public void onFailure(Call<Device> call, Throwable t) {
                     Log.i("get device failure", "The data could not reach you!" +t.getMessage());
                     allDevices.setValue(currentAll);
+                    deleteAllDevices();
+                    insertAllInLocal(currentAll);
+                    Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
+
+
+                    //Getting the previous data from the local database
+                    allDevices = (MutableLiveData<List<Device>>) deviceDao.getAllLocal();
                 }
             });
         }
         allDevices.setValue(currentAll);
+        deleteAllDevices();
+        insertAllInLocal(currentAll);
         return allDevices;
     }
 
@@ -217,4 +254,20 @@ public class DeviceRepository {
     private void saveUserDevices() {
         LocalStorage.getInstance().set("devices",ListToString(userDevices));
     }
+
+
+    //LOCAL DATA
+    public void insertAllInLocal(List<Device> devices){
+        for(int i = 0; i < devices.size(); i++){
+            int finalI = i;
+            executorService.execute(() -> deviceDao.insert(devices.get(finalI)));
+      }
+        //executorService.execute(() -> deviceDao.insert(device));
+    }
+
+    public void deleteAllDevices(){
+        executorService.execute(deviceDao::deleteAll);
+    }
+
+
 }
