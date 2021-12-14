@@ -51,7 +51,7 @@ public class ChartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        timeChosen = available_times.minutes15;
+        timeChosen = available_times.years1;
         eui = getArguments().getString("eui");
 
         now = new Date();
@@ -148,9 +148,10 @@ public class ChartFragment extends Fragment {
         LineDataSet dataSet = new LineDataSet(setDataValues(newData), getArguments().getString("key"));
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
-
         LineData data = new LineData(dataSets);
         reportChart.setData(data);
-        reportChart.invalidate();
+        reportChart.notifyDataSetChanged();
+        reportChart.invalidate(); // Everytime data is changed this refreshes the chart
+
     }
 }
