@@ -24,9 +24,10 @@ import com.greenhouse.android.View.Adapters.DeviceListAdapter;
 import com.greenhouse.android.ViewModel.HomeViewModel;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements DeviceListAdapter.OnListItemClickListener {
 
     private HomeViewModel homeViewModel;
     private DevicesViewModel devicesViewModel;
@@ -35,6 +36,8 @@ public class HomeFragment extends Fragment {
 
     FloatingActionButton addDevice;
 
+    List<Device> ghList;  // Moved it outside of the method so the clicklistener works.
+    DeviceListAdapter adapter; // Here because I need to use it in the bundle.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,21 +46,19 @@ public class HomeFragment extends Fragment {
 
         devicesViewModel = new ViewModelProvider(this).get(DevicesViewModel.class);
 
+        ghList = new ArrayList<>();
+       adapter = new DeviceListAdapter(ghList, this);
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        devicesViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Device>>() {
-            @Override
-            public void onChanged(List<Device> devices) {
-                DeviceListAdapter adapter = new DeviceListAdapter(devices);
-                recyclerViewMainPage.setAdapter(adapter);
-            }
-        });
+        devicesViewModel.getAll().observe(getViewLifecycleOwner(), adapter::updateData);
 
 
         //recycler view set up
         recyclerViewMainPage = root.findViewById(R.id.mainPageRecyclerView);
         recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewMainPage.setAdapter(adapter);
         recyclerViewMainPage.hasFixedSize();
 
         addDevice = root.findViewById(R.id.home_add_device_button);
@@ -72,4 +73,25 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
+        Bundle bundle = new Bundle();
+            bundle.putString("eui", adapter.ghList.get(clickedItemIndex).getEui());
+            bundle.putString("location", adapter.ghList.get(clickedItemIndex).getLocation());
+            bundle.putInt("temperature", adapter.ghList.get(clickedItemIndex).getLatest().getTemperature());
+            bundle.putInt("light", adapter.ghList.get(clickedItemIndex).getLatest().getLight());
+            bundle.putInt("co2", adapter.ghList.get(clickedItemIndex).getLatest().getCo2());
+            bundle.putInt("humidity", adapter.ghList.get(clickedItemIndex).getLatest().getHumidity());
+
+
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_greenhouse_show, bundle);
+
+    }
 }

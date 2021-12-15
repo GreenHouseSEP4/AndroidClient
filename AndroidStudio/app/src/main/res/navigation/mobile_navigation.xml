@@ -27,4 +27,17 @@
         android:name="com.greenhouse.android.View.Fragments.AddDeviceFragment"
         android:label="Add Device"
         tools:layout="@layout/fragment_add_device" />
+
+
+    <fragment
+        android:id="@+id/navigation_greenhouse_show"
+        android:name="com.greenhouse.android.View.Fragments.GreenHouseInfoFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_greenhouse_show"/>
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.greenhouse.android.View.Fragments.ChartFragment"
+        android:label="Line Chart"
+        tools:layout="@layout/fragment_chart"/>
 </navigation>
