@@ -1,5 +1,7 @@
 package com.greenhouse.android.View.Fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,16 +10,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.ChartViewModel;
 import com.greenhouse.android.ViewModel.available_times;
@@ -39,8 +44,11 @@ public class ChartFragment extends Fragment {
     TextView minutes;
     TextView hour;
     TextView day;
+    TextView week;
     TextView month;
+    TextView half_year;
     TextView year;
+
     available_times timeChosen;
     String eui;
 
@@ -63,12 +71,23 @@ public class ChartFragment extends Fragment {
         minutes = view.findViewById(R.id.minutes);
         hour = view.findViewById(R.id.hour);
         day = view.findViewById(R.id.day);
+        week = view.findViewById(R.id.week);
         month = view.findViewById(R.id.month);
+        half_year = view.findViewById(R.id.half_year);
         year = view.findViewById(R.id.year);
 
         reportChart = view.findViewById(R.id.reportChartView);
         reportChart.setTouchEnabled(true);
         reportChart.setPinchZoom(true);
+
+        reportChart.getAxisLeft().setDrawGridLines(false);
+        reportChart.getAxisRight().setDrawGridLines(false);
+        reportChart.getXAxis().setDrawGridLines(false);
+        reportChart.getXAxis().setEnabled(false);
+        reportChart.setDrawBorders(true);
+
+        Description description = reportChart.getDescription();
+        description.setEnabled(false);
 
         minutes.setOnClickListener(v -> {
             timeChosen = available_times.minutes15;
@@ -82,8 +101,16 @@ public class ChartFragment extends Fragment {
             timeChosen = available_times.days1;
             getData();
         });
+        week.setOnClickListener(v-> {
+            timeChosen = available_times.days7;
+            getData();
+        });
         month.setOnClickListener(v-> {
             timeChosen = available_times.months1;
+            getData();
+        });
+        half_year.setOnClickListener(v-> {
+            timeChosen = available_times.months6;
             getData();
         });
         year.setOnClickListener(v-> {
@@ -112,28 +139,31 @@ public class ChartFragment extends Fragment {
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getHumidity()));
              }
-             else if(getArguments().getString("key").equals("light"))
+             else if(getArguments().getString("key").equals("co2"))
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getCo2()));
              }
          }
 
-        LimitLine lineMax = new LimitLine(25, "Maximum Limit");
-        lineMax.setLineWidth(4);
-        lineMax.enableDashedLine(10, 10, 0);
-        lineMax.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        lineMax.setTextSize(10);
-
-        LimitLine lineMin = new LimitLine(22, "Minimum Limit");
-        lineMin.setLineWidth(4);
-        lineMin.enableDashedLine(10, 10, 0);
-        lineMin.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        lineMin.setTextSize(10);
-
         YAxis axis = reportChart.getAxisLeft();
         axis.removeAllLimitLines();
-        axis.addLimitLine(lineMax);
-        axis.addLimitLine(lineMin);
+
+//        LimitLine lineMax = new LimitLine(25, "Maximum Limit");
+//        lineMax.setLineWidth(4);
+//        lineMax.enableDashedLine(10, 10, 0);
+//        lineMax.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+//        lineMax.setTextSize(10);
+//
+//        LimitLine lineMin = new LimitLine(22, "Minimum Limit");
+//        lineMin.setLineWidth(4);
+//        lineMin.enableDashedLine(10, 10, 0);
+//        lineMin.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+//        lineMin.setTextSize(10);
+//
+//
+//        axis.addLimitLine(lineMax);
+//        axis.addLimitLine(lineMin);
+
 
         return dataValues;
     }
@@ -146,6 +176,17 @@ public class ChartFragment extends Fragment {
     public void updateData(List<GreenData> newData)
     {
         LineDataSet dataSet = new LineDataSet(setDataValues(newData), getArguments().getString("key"));
+        dataSet.setDrawFilled(true);
+        if (Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_green);
+            dataSet.setFillDrawable(drawable);
+        }
+        else {
+            dataSet.setFillColor(Color.BLACK);
+        }
+        dataSet.setCircleColor(Color.GREEN);
+        dataSet.setFillColor(Color.GREEN);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
         LineData data = new LineData(dataSets);

@@ -25,6 +25,7 @@
         android:layout_marginTop="8dp"
         android:text="15m"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -49,6 +50,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/hour"
         app:layout_constraintStart_toEndOf="@+id/hour"
         app:layout_constraintTop_toTopOf="@+id/hour" />
+    <TextView
+        android:id="@+id/week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="7d"
+        app:layout_constraintBottom_toBottomOf="@+id/day"
+        app:layout_constraintStart_toEndOf="@+id/day"
+        app:layout_constraintTop_toTopOf="@+id/day" />
 
 
     <TextView
@@ -57,9 +67,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="1m"
-        app:layout_constraintBottom_toBottomOf="@+id/day"
-        app:layout_constraintStart_toEndOf="@+id/day"
-        app:layout_constraintTop_toTopOf="@+id/day" />
+        app:layout_constraintBottom_toBottomOf="@+id/week"
+        app:layout_constraintStart_toEndOf="@+id/week"
+        app:layout_constraintTop_toTopOf="@+id/week" />
+
+    <TextView
+        android:id="@+id/half_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="6m"
+        app:layout_constraintBottom_toBottomOf="@+id/month"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toEndOf="@+id/month"
+        app:layout_constraintTop_toTopOf="@+id/month"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/year"
@@ -68,11 +91,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:text="1y"
-        app:layout_constraintBottom_toBottomOf="@+id/month"
+        app:layout_constraintBottom_toBottomOf="@+id/half_year"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.377"
-        app:layout_constraintStart_toEndOf="@+id/month"
-        app:layout_constraintTop_toTopOf="@+id/month"
+        app:layout_constraintStart_toEndOf="@+id/half_year"
+        app:layout_constraintTop_toTopOf="@+id/half_year"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.github.mikephil.charting.charts.LineChart

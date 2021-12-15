@@ -17,7 +17,7 @@ public class ServiceGenerator {
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("api-key", "somethingdifficult")
+                    .addHeader("api-key", "zaCELgL.0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx")
                     .build();
             return chain.proceed(newRequest);
         }
