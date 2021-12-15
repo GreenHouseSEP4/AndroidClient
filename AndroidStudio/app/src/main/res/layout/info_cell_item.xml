@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="120dp"
-    android:layout_height="120dp"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
     android:orientation="vertical"
     android:background="@drawable/info_cell_style"
     android:layout_margin="10dp" >
@@ -11,7 +11,7 @@
         android:id="@+id/indicatorIcon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_co2" />
@@ -20,20 +20,20 @@
         android:id="@+id/indicatorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1"
         android:text="Lighting"
         android:textColor="@color/white"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/showInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:textColor="@color/white"
-        android:text="Value"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"/>
+        android:text="Value"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 </LinearLayout>
