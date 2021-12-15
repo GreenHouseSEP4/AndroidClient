@@ -140,9 +140,9 @@ public class DeviceRepository {
                 @Override
                 public void onFailure(Call<Device> call, Throwable t) {
                     Log.i("get device failure", "The data could not reach you!" +t.getMessage());
-                    allDevices.setValue(currentAll);
-                    deleteAllDevices();
-                    insertAllInLocal(currentAll);
+//                    allDevices.setValue(currentAll);
+//                    deleteAllDevices();
+//                    insertAllInLocal(currentAll);
                     Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
 
 
@@ -183,13 +183,12 @@ public class DeviceRepository {
 
     public void create(Device device) {
         Call<Device> call = deviceAPI.create(device);
-
+        addUserDeviceLocal(device.eui);
         call.enqueue(new Callback<Device>() {
             @Override
             public void onResponse(Call<Device> call, Response<Device> response) {
                 if (response.code() == 200) {
                     Log.e("create deviceAPI success","call: "+response.body());
-                    addUserDeviceLocal(device.eui);
                     getAll();
                 } else {
                     Log.e("create deviceAPI not 200","call: "+response.code()+" "+response.message());
