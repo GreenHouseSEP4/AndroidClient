@@ -26,6 +26,7 @@ public class GreenData {
         this.co2 = -1;
         this.date = new Date();
         this.id = -1;
+    }
     public GreenData(int humidity, int temperature, int light, int co2) {
         this.id = -1;
         this.date = new Date();

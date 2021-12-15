@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.greenhouse.android.Networking.DeviceAPI;
 import com.greenhouse.android.Networking.ServiceGenerator;
+import com.greenhouse.android.Util.LocalStorage;
 import com.greenhouse.android.ViewModel.available_times;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 import com.greenhouse.android.Wrappers.Device;
