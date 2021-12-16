@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.greenhouse.android.View.Fragments.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_profile"
+        android:name="com.greenhouse.android.View.Fragments.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/navigation_add_device"
         android:name="com.greenhouse.android.View.Fragments.AddDeviceFragment"
