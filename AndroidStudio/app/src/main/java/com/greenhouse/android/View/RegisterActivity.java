@@ -90,11 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                     registerButton.setText("SUBMIT");
                     logged = false;
                 }else{
-//                    password.setVisibility(View.INVISIBLE);
-//                    email.setVisibility(View.INVISIBLE);
-//                    name.setVisibility(View.INVISIBLE);
-//                    registerButton.setText("LOGOUT");
-//                    logged = true;
+
                     Intent intent = new Intent(RegisterActivity.this, StartActivity.class);
                     startActivity(intent);
                     finish();

@@ -87,9 +87,13 @@ public class AddDeviceFragment extends Fragment {
 
 
     private void updateDevice(){
+        String newName = name.getText().toString();
+        String id = deviceId.getText().toString();
+        if (id.length() != 16) {
+            Toast.makeText(getContext(), "DeviceID should be 16 characters long.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
-            String newName = name.getText().toString();
-            String id = deviceId.getText().toString();
 
             int tempTarget = intFromEdit(targetTemp);
             int humTarget = intFromEdit(targetHum);

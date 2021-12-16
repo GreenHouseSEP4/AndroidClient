@@ -2,6 +2,7 @@ package com.greenhouse.android.View;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
@@ -61,11 +62,9 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        // Hiding title bar and making it fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(binding.getRoot());
 
         setContentView(R.layout.activity_login);
@@ -76,30 +75,23 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
 
 
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        userViewModel.getToken().observe(this, new Observer<JWT>() {
-            @Override
-            public void onChanged(JWT jwt) {
-//                Toast.makeText(getApplicationContext(), userViewModel.getToken().getValue().getToken(), Toast.LENGTH_SHORT).show();
-                if(jwt.getToken().equals("empty")||jwt.getToken().equals("loading")){
-                    password.setVisibility(View.VISIBLE);
-                    email.setVisibility(View.VISIBLE);
-                    loginButton.setText("LOGIN");
-                    logged = false;
-                }else{
-//                    password.setVisibility(View.INVISIBLE);
-//                    email.setVisibility(View.INVISIBLE);
-//                    loginButton.setText("LOGOUT");
-//                    logged = true;
-                    Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+        userViewModel.getToken().observe(this, jwt -> {
+            if(jwt.getToken().equals("empty")||jwt.getToken().equals("loading")||jwt.getToken().equals("default")){
+                password.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                loginButton.setText("LogIn");
+                logged = false;
+            }else{
+                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -112,13 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if(email.getText().toString().equals("")||email.getText().toString().equals("")) return;
-
                 User toLogin = new User(email.getText().toString(),password.getText().toString());
-
-                Toast.makeText(getApplicationContext(), userViewModel.getToken().getValue().getToken(), Toast.LENGTH_SHORT).show();
                 userViewModel.login(toLogin);
-                Toast.makeText(getApplicationContext(), userViewModel.getToken().getValue().getToken(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }

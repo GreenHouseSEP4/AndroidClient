@@ -21,7 +21,6 @@ import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.DevicesViewModel;
 import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.View.Adapters.DeviceListAdapter;
-import com.greenhouse.android.ViewModel.HomeViewModel;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements DeviceListAdapter.OnListItemClickListener {
 
-    private HomeViewModel homeViewModel;
+
     private DevicesViewModel devicesViewModel;
     private FragmentHomeBinding binding;
     RecyclerView recyclerViewMainPage;
@@ -41,13 +40,11 @@ public class HomeFragment extends Fragment implements DeviceListAdapter.OnListIt
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
 
         devicesViewModel = new ViewModelProvider(this).get(DevicesViewModel.class);
 
         ghList = new ArrayList<>();
-       adapter = new DeviceListAdapter(ghList, this);
+        adapter = new DeviceListAdapter(ghList, this);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
