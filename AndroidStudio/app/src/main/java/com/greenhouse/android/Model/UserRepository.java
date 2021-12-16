@@ -23,7 +23,6 @@ public class UserRepository {
     private AuthAPI authAPI;
 
     private MutableLiveData<JWT> accessToken;
-    private MutableLiveData<JWT> refreshToken;
 
     private String email;
     private String pass;
@@ -31,16 +30,11 @@ public class UserRepository {
     private UserRepository(){
         userAPI = ServiceGenerator.getUserAPI();
         authAPI = ServiceGenerator.getAuthAPI();
-        refreshToken = new MutableLiveData<>();
         accessToken = new MutableLiveData<>();
 
-        accessToken.setValue(new JWT("loading"));
-        //TODO but no longer relevant as we don't really need auth.
-//        refreshToken.setValue(new JWT(LocalStorage.getInstance().get("refreshToken")));
-//        refresh();
+        accessToken.setValue(new JWT(LocalStorage.getInstance().get("access_token")));
         email = LocalStorage.getInstance().get("email");
         pass = LocalStorage.getInstance().get("pass");
-        login(new User(email,pass));
     }
 
     public static UserRepository getInstance(){
@@ -52,7 +46,7 @@ public class UserRepository {
 
     public LiveData<JWT> getToken(){
         if (accessToken == null)
-            refresh();
+            accessToken.setValue(new JWT(LocalStorage.getInstance().get("access_token")));
         return accessToken;
     }
 
@@ -106,9 +100,5 @@ public class UserRepository {
             }
         });
 
-    }
-
-    private void refresh(){
-        accessToken.setValue(new JWT("empty"));
     }
 }

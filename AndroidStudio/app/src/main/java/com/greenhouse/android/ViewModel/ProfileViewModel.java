@@ -22,6 +22,10 @@ public class ProfileViewModel extends ViewModel {
 
     public void updateUser(User user){repository.login(user);}
 
+    public void logout() {
+        repository.logout();
+    }
+
 
 
 }

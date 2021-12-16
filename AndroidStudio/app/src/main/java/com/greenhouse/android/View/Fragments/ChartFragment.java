@@ -103,7 +103,6 @@ public class ChartFragment extends Fragment {
         reportChart.getAxisRight().setDrawGridLines(false);
         reportChart.getXAxis().setDrawGridLines(false);
         reportChart.getXAxis().setEnabled(false);
-        reportChart.setDrawBorders(true);
 
         Description description = reportChart.getDescription();
         description.setEnabled(false);
