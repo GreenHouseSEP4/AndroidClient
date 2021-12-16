@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.greenhouse.android.Networking.DeviceAPI;
 import com.greenhouse.android.Networking.ServiceGenerator;
+import com.greenhouse.android.Util.DateUtil;
 import com.greenhouse.android.Util.LocalStorage;
 import com.greenhouse.android.Util.RoomDatabase.DeviceDao;
 import com.greenhouse.android.Util.RoomDatabase.GreenHouseDatabase;
@@ -47,9 +48,11 @@ public class DeviceRepository {
     private List<GreenData> currentData;
 
     MutableLiveData<List<GreenData>> chartData;
+    
+    MutableLiveData<String> controlResponse;
 
     private List<String> userDevices;
-     private List<GreenData> greenList;
+    private List<GreenData> greenList;
 
     public DeviceRepository(Application application) {
         GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
@@ -57,6 +60,9 @@ public class DeviceRepository {
         allDevices = new MutableLiveData<>();
 
         intervalData = new MutableLiveData<>();
+        
+        controlResponse = new MutableLiveData<>();
+        
         userDevices = StringToList(LocalStorage.getInstance().get("devices"));
         Log.e("user devices",userDevices+"");
 
@@ -322,7 +328,7 @@ public class DeviceRepository {
 
     public MutableLiveData<List<GreenData>> getDeviceInterval(String id, Date end,int noOfPoints,available_times interval)
     {
-        Date start = calculateStart(end,interval,noOfPoints);
+        Date start = DateUtil.calculateStart(end,interval,noOfPoints);
         currentData = new ArrayList<>();
 
         String pattern = "yyyy-MM-dd HH:mm:ss";
@@ -370,8 +376,8 @@ public class DeviceRepository {
 
         List<GreenData> returned = new ArrayList<>();
 
-        Date start = calculateStart(end,interval,noOfPoints);
-        Date localEnd = calculateEnd(start,interval,1);
+        Date start = DateUtil.calculateStart(end,interval,noOfPoints);
+        Date localEnd = DateUtil.calculateEnd(start,interval,1);
 
         for (int i = 0; i < noOfPoints; i++) {
 
@@ -380,7 +386,7 @@ public class DeviceRepository {
             returned.add(i,averaged);
 
             start = localEnd;
-            localEnd = calculateEnd(start,interval,1);
+            localEnd = DateUtil.calculateEnd(start,interval,1);
         }
 
         chartData.setValue(returned);
@@ -415,62 +421,67 @@ public class DeviceRepository {
         }
         return returned;
     }
-    private Date calculateStart(Date end, available_times interval,int noOfPoints) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(end);
-        switch (interval) {
-            case minutes15:
-                c.add(Calendar.MINUTE,-noOfPoints*15);
-                break;
-            case hours4:
-                c.add(Calendar.HOUR,-noOfPoints*4);
-                break;
-            case days1:
-                c.add(Calendar.DAY_OF_MONTH,-noOfPoints);
-                break;
-            case days7:
-                c.add(Calendar.DAY_OF_MONTH,-noOfPoints*7);
-                break;
-            case months1:
-                c.add(Calendar.MONTH,-noOfPoints);
-                break;
-            case months6:
-                c.add(Calendar.MONTH,-noOfPoints*6);
-                break;
-            case years1:
-                c.add(Calendar.YEAR,-noOfPoints);
-                break;
-        }
+    
+    public void controlWindow(String eui,int value) {
+        
+        Call<String> call = deviceAPI.windowPosition(eui,value);
 
-        return c.getTime();
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
     }
-    private Date calculateEnd(Date start, available_times interval,int noOfPoints) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(start);
-        switch (interval) {
-            case minutes15:
-                c.add(Calendar.MINUTE,+noOfPoints*15);
-                break;
-            case hours4:
-                c.add(Calendar.HOUR,+noOfPoints*4);
-                break;
-            case days1:
-                c.add(Calendar.DAY_OF_MONTH,+noOfPoints);
-                break;
-            case days7:
-                c.add(Calendar.DAY_OF_MONTH,+noOfPoints*7);
-                break;
-            case months1:
-                c.add(Calendar.MONTH,+noOfPoints);
-                break;
-            case months6:
-                c.add(Calendar.MONTH,+noOfPoints*6);
-                break;
-            case years1:
-                c.add(Calendar.YEAR,+noOfPoints);
-                break;
-        }
+    public void controlWater(String eui,int value) {
+        
+        Call<String> call = deviceAPI.waterControl(eui,value);
 
-        return c.getTime();
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void controlLight(String eui,int value) {
+
+        Call<String> call = deviceAPI.lightControl(eui,value);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public MutableLiveData<String> getControlResponse() {
+        return controlResponse;
     }
 }

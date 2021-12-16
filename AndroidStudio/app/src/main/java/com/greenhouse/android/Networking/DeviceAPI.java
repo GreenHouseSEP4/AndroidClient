@@ -35,6 +35,16 @@ public interface DeviceAPI {
     @PUT("devices")
     Call<Device> update(@Body Device created);
 
+    @POST("remote/{deviceId}/window")
+    Call<String> windowPosition(@Path("deviceId")String eui,@Query("commandPercentage")int value);
+
+
+    @POST("remote/{deviceId}/water")
+    Call<String> waterControl(@Path("deviceId")String eui,@Query("waterValue")int value);
+
+
+    @POST("remote/{deviceId}/light")
+    Call<String> lightControl(@Path("deviceId")String eui,@Query("lightValue")int value);
 
 
 }

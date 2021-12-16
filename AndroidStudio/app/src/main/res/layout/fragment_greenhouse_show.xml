@@ -13,7 +13,6 @@
         android:layout_height="202dp"
         android:layout_row="0"
         android:layout_column="0"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +40,9 @@
         android:text="TextView"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintEnd_toStartOf="@+id/greenhouse_display_control"
         app:layout_constraintStart_toEndOf="@+id/back_button"
-        app:layout_constraintTop_toTopOf="@+id/back_button" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/back_button"
@@ -53,13 +51,13 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/angle_left" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/infoRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:paddingBottom="170sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +65,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greenHouse_image"
         app:layout_constraintVertical_bias="0.253" />
+
+    <ImageView
+        android:id="@+id/greenhouse_display_control"
+        android:layout_width="@dimen/green_icon_width"
+        android:layout_height="@dimen/green_icon_height"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/greenhouse_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/greenhouse_name"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/sliders"
+        app:tint="@color/gray" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,30 +17,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.greenhouse.android.R;
 import com.greenhouse.android.View.RecyclerViewInfo.Indicator;
 import com.greenhouse.android.View.RecyclerViewInfo.InfoAdapter;
-import com.greenhouse.android.ViewModel.GreenHouseInfoVM;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnListItemClickListener {
+public class DeviceInfoFragment extends Fragment implements InfoAdapter.OnListItemClickListener {
 
-    GreenHouseInfoVM viewModel;
     InfoAdapter adapter;
     RecyclerView indicatorsRecycler;
-    Device greenHouseToShow;
     List<Indicator> indicators;
     TextView name;
     ImageView greenHouseImage;
     ImageView backButton;
-    ImageView setThreshold;
+    ImageView controlButton;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //viewModel = new ViewModelProvider(this).get(GreenHouseInfoVM.class);
 
         View view = inflater.inflate(R.layout.fragment_greenhouse_show, container, false);
 
@@ -53,13 +49,18 @@ public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnLi
         backButton = view.findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_home));
 
-       // setThreshold = view.findViewById(R.id.set_values);
-       // backButton.setOnClickListener(v -> Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate());  /////// NAVIGATE TO THRESHOLD SETTING
+        controlButton = view.findViewById(R.id.greenhouse_display_control);
+        controlButton.setOnClickListener(view1 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("eui", getArguments().getString("eui"));
+            bundle.putString("location", getArguments().getString("location"));
+            Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main_page).navigate(R.id.navigation_control,bundle);
+        });
 
         indicators = new ArrayList<>();
-        indicators.add(new Indicator(R.drawable.brightness, "Light", getArguments().getInt("light")));
+        indicators.add(new Indicator(R.drawable.sun_bright, "Light", getArguments().getInt("light")));
         indicators.add(new Indicator(R.drawable.temperature_half, "Temperature", getArguments().getInt("temperature")));
-        indicators.add(new Indicator(R.drawable.droplet_degree, "Humidity", getArguments().getInt("humidity")));
+        indicators.add(new Indicator(R.drawable.droplet, "Humidity", getArguments().getInt("humidity")));
         indicators.add(new Indicator(R.drawable.wind, "CO2", getArguments().getInt("co2")));
 
 

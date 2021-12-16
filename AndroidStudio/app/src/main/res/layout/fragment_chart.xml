@@ -11,119 +11,109 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:text="Interval"
+        android:textColor="@color/black"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.923"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="15m"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/hour" />
 
     <TextView
         android:id="@+id/hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="1h"
-        app:layout_constraintBottom_toBottomOf="@+id/minutes"
-        app:layout_constraintStart_toEndOf="@+id/minutes"
-        app:layout_constraintTop_toTopOf="@+id/minutes" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/day" />
 
 
     <TextView
         android:id="@+id/day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="1d"
-        app:layout_constraintBottom_toBottomOf="@+id/hour"
-        app:layout_constraintStart_toEndOf="@+id/hour"
-        app:layout_constraintTop_toTopOf="@+id/hour" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/week" />
+
     <TextView
         android:id="@+id/week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="7d"
-        app:layout_constraintBottom_toBottomOf="@+id/day"
-        app:layout_constraintStart_toEndOf="@+id/day"
-        app:layout_constraintTop_toTopOf="@+id/day" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/month" />
 
 
     <TextView
         android:id="@+id/month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="1m"
-        app:layout_constraintBottom_toBottomOf="@+id/week"
-        app:layout_constraintStart_toEndOf="@+id/week"
-        app:layout_constraintTop_toTopOf="@+id/week" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/half_year" />
 
     <TextView
         android:id="@+id/half_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="6m"
-        app:layout_constraintBottom_toBottomOf="@+id/month"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toEndOf="@+id/month"
-        app:layout_constraintTop_toTopOf="@+id/month"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toStartOf="@+id/year" />
 
     <TextView
         android:id="@+id/year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
         android:text="1y"
-        app:layout_constraintBottom_toBottomOf="@+id/half_year"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.377"
-        app:layout_constraintStart_toEndOf="@+id/half_year"
-        app:layout_constraintTop_toTopOf="@+id/half_year"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toTopOf="@+id/reportChartView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/reportChartView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="55dp"
         android:layout_weight="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minutes" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/targetField"
+        android:id="@+id/graph_date_interval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:scrollbarSize="20dp"
         android:text="Temperature"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportChartView"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintTop_toBottomOf="@+id/reportChartView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

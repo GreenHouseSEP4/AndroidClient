@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -24,23 +24,21 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.greenhouse.android.R;
+import com.greenhouse.android.Util.DateUtil;
 import com.greenhouse.android.ViewModel.ChartViewModel;
 import com.greenhouse.android.ViewModel.available_times;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ChartFragment extends Fragment {
 
     LineChart reportChart;
     ChartViewModel viewModel;
     Date now;
+    Date start;
     TextView minutes;
     TextView hour;
     TextView day;
@@ -48,9 +46,15 @@ public class ChartFragment extends Fragment {
     TextView month;
     TextView half_year;
     TextView year;
+    TextView graphDate;
+    String key;
 
     available_times timeChosen;
     String eui;
+
+    Toast toast;
+
+    boolean loading;
 
     final int noOfPoints = 25;
 
@@ -59,14 +63,9 @@ public class ChartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        timeChosen = available_times.years1;
-        eui = getArguments().getString("eui");
 
-        now = new Date();
 
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
-        viewModel = new ViewModelProvider(this).get(ChartViewModel.class);
-        viewModel.getChartData(eui,now, timeChosen,noOfPoints).observe(getViewLifecycleOwner(), this::updateData);
 
         minutes = view.findViewById(R.id.minutes);
         hour = view.findViewById(R.id.hour);
@@ -75,6 +74,26 @@ public class ChartFragment extends Fragment {
         month = view.findViewById(R.id.month);
         half_year = view.findViewById(R.id.half_year);
         year = view.findViewById(R.id.year);
+
+        graphDate = view.findViewById(R.id.graph_date_interval);
+
+        toast = new Toast(getContext());
+
+        viewModel = new ViewModelProvider(this).get(ChartViewModel.class);
+
+        eui = getArguments().getString("eui");
+        timeChosen = available_times.days7;
+        key = getArguments().getString("key");
+        selectInterval(week);
+
+        now = new Date();
+        start = DateUtil.calculateStart(now,available_times.days7,noOfPoints);
+        graphDate.setText("First point: "+ start.toString()+"\nLast point: "+now.toString());
+
+        viewModel.getChartData(eui,now, timeChosen,noOfPoints).observe(getViewLifecycleOwner(), this::updateData);
+
+        loading = true;
+
 
         reportChart = view.findViewById(R.id.reportChartView);
         reportChart.setTouchEnabled(true);
@@ -90,35 +109,76 @@ public class ChartFragment extends Fragment {
         description.setEnabled(false);
 
         minutes.setOnClickListener(v -> {
-            timeChosen = available_times.minutes15;
-            getData();
+            if (!loading) {
+                selectInterval(minutes);
+                timeChosen = available_times.minutes15;
+                getData();
+            }
         });
         hour.setOnClickListener(v -> {
-            timeChosen = available_times.hours4;
-            getData();
+            if(!loading){
+                selectInterval(hour);
+                timeChosen = available_times.hours4;
+                getData();
+            }
         });
         day.setOnClickListener(v-> {
-            timeChosen = available_times.days1;
-            getData();
+            if(!loading){
+                selectInterval(day);
+                timeChosen = available_times.days1;
+                getData();
+            }
         });
         week.setOnClickListener(v-> {
-            timeChosen = available_times.days7;
-            getData();
+            if(!loading){
+                selectInterval(week);
+                timeChosen = available_times.days7;
+                getData();
+            }
         });
         month.setOnClickListener(v-> {
-            timeChosen = available_times.months1;
-            getData();
+            if(!loading){
+                selectInterval(month);
+                timeChosen = available_times.months1;
+                getData();
+            }
         });
         half_year.setOnClickListener(v-> {
-            timeChosen = available_times.months6;
-            getData();
+            if(!loading){
+                selectInterval(half_year);
+                timeChosen = available_times.months6;
+                getData();
+            }
         });
         year.setOnClickListener(v-> {
-            timeChosen = available_times.years1;
-            getData();
+            if(!loading){
+                selectInterval(year);
+                timeChosen = available_times.years1;
+                getData();
+            }
         });
 
         return view;
+    }
+
+    private void resetInterval(TextView interval) {
+        interval.setTextColor(getResources().getColor(R.color.black));
+        interval.setTextSize(15);
+    }
+
+    private void selectInterval(TextView interval) {
+        resetInterval(minutes);
+        resetInterval(hour);
+        resetInterval(day);
+        resetInterval(week);
+        resetInterval(month);
+        resetInterval(half_year);
+        resetInterval(year);
+        interval.setTextColor(getResources().getColor(R.color.green));
+        interval.setTextSize(20);
+        toast.cancel();
+        toast = Toast.makeText(getContext(),"Loading!",Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     @NonNull
@@ -127,19 +187,19 @@ public class ChartFragment extends Fragment {
          ArrayList<Entry> dataValues = new ArrayList<>();
          for(int i = 0; i < dataToShow.size(); i++)
          {
-             if(getArguments().getString("key").equals("light"))
+             if(key.equals("light"))
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getLight()));
              }
-             else if (getArguments().getString("key").equals("temperature"))
+             else if (key.equals("temperature"))
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getTemperature()));
              }
-             else if(getArguments().getString("key").equals("humidity"))
+             else if(key.equals("humidity"))
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getHumidity()));
              }
-             else if(getArguments().getString("key").equals("co2"))
+             else if(key.equals("co2"))
              {
                  dataValues.add(new Entry(i+1, dataToShow.get(i).getCo2()));
              }
@@ -164,18 +224,19 @@ public class ChartFragment extends Fragment {
 //        axis.addLimitLine(lineMax);
 //        axis.addLimitLine(lineMin);
 
-
         return dataValues;
     }
 
     public void getData()
     {
         viewModel.getChartData(eui, now, timeChosen,noOfPoints);
+        start = DateUtil.calculateStart(now,timeChosen,noOfPoints);
+        graphDate.setText("First point: "+now.toString()+"\nLast point: "+ start.toString());
     }
 
     public void updateData(List<GreenData> newData)
     {
-        LineDataSet dataSet = new LineDataSet(setDataValues(newData), getArguments().getString("key"));
+        LineDataSet dataSet = new LineDataSet(setDataValues(newData), key);
         dataSet.setDrawFilled(true);
         if (Utils.getSDKInt() >= 18) {
             // fill drawable only supported on api level 18 and above
@@ -185,14 +246,15 @@ public class ChartFragment extends Fragment {
         else {
             dataSet.setFillColor(Color.BLACK);
         }
-        dataSet.setCircleColor(Color.GREEN);
-        dataSet.setFillColor(Color.GREEN);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
         LineData data = new LineData(dataSets);
         reportChart.setData(data);
         reportChart.notifyDataSetChanged();
         reportChart.invalidate(); // Everytime data is changed this refreshes the chart
-
+        toast.cancel();
+        toast = Toast.makeText(getContext(),"Loading finished!",Toast.LENGTH_SHORT);
+        toast.show();
+        loading = false;
     }
 }

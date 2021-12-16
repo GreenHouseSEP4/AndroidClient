@@ -1,5 +1,7 @@
 package com.greenhouse.android.Networking;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.greenhouse.android.Util.LocalStorage;
 
 import java.io.IOException;
@@ -23,10 +25,13 @@ public class ServiceGenerator {
         }
     }).build();
 
+    private static Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
 
     private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
             .baseUrl("http://gatewayserver-env.eba-jv7rk7pv.eu-central-1.elasticbeanstalk.com/")
-            .addConverterFactory(GsonConverterFactory.create());
+            .addConverterFactory(GsonConverterFactory.create(gson));
 
     private static Retrofit.Builder authBuilder = new Retrofit.Builder()
             .baseUrl("https://greenauth.ddlele.com/")

@@ -38,8 +38,6 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //getArguments().getSerializable() GET THE CURRENT USER
-        //updateFields(currentUser);
 
         saveButton = root.findViewById(R.id.profileSaveButton);
 
@@ -57,23 +55,6 @@ public class ProfileFragment extends Fragment {
 //
         return root;
     }
-
-
-//    //Old method
-//    public void OnViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-//        saveButton = getView().findViewById(R.id.profileSaveButton);
-//
-//        username = getView().findViewById(R.id.usernameTextView);
-//        email = getView().findViewById(R.id.emailTextView);
-//        password = getView().findViewById(R.id.editTextTextPassword);
-//
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updateUser();
-//            }
-//        });
-//    }
 
     private void updateFields(User current){
         username.setText(current.getName());

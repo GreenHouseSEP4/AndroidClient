@@ -88,7 +88,6 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(getContext(), "You have to devices to update", Toast.LENGTH_SHORT).show();
             }
         });
 
