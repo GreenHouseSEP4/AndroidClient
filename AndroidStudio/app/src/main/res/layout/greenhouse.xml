@@ -28,7 +28,7 @@
             android:background="@drawable/rounder_corner"
             android:gravity="center"
             android:padding="13sp"
-            android:text="Greenhouse 1"
+            android:text="Greenhouse Name"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:circularflow_radiusInDP="20sp"
@@ -41,7 +41,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="80sp"
-        android:background="#eeeeee"
+        android:background="#efefef"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:layout_editor_absoluteX="-192dp">
@@ -51,14 +51,15 @@
             android:id="@+id/gh_start_icon_hum"
             android:layout_width="@dimen/green_icon_width"
             android:layout_height="@dimen/green_icon_height"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/gh_start_icon_temp"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.26999998"
-            app:srcCompat="@drawable/droplet_degree" />
+            app:srcCompat="@drawable/droplet"
+            app:tint="@color/gray"/>
 
         <ImageView
             android:id="@+id/gh_start_icon_temp"
@@ -70,7 +71,8 @@
             app:layout_constraintStart_toEndOf="@+id/gh_start_icon_hum"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.275"
-            app:srcCompat="@drawable/temperature_half" />
+            app:srcCompat="@drawable/temperature_half"
+            app:tint="@color/gray"/>
 
         <ImageView
             android:id="@+id/gh_start_icon_light"
@@ -82,20 +84,22 @@
             app:layout_constraintStart_toEndOf="@+id/gh_start_icon_temp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.275"
-            app:srcCompat="@drawable/brightness" />
+            app:srcCompat="@drawable/sun_bright"
+            app:tint="@color/gray" />
 
         <ImageView
             android:id="@+id/gh_start_icon_co2"
             android:layout_width="@dimen/green_icon_width"
             android:layout_height="@dimen/green_icon_height"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/gh_start_icon_light"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.275"
-            app:srcCompat="@drawable/wind" />
+            app:srcCompat="@drawable/wind"
+            app:tint="@color/gray"/>
 
         <TextView
             android:id="@+id/gh_start_co2"
@@ -104,7 +108,7 @@
             android:text="500 PPM"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_co2"
-            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="@+id/gh_start_icon_co2"
             app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_co2"
             app:layout_constraintVertical_bias="0.21" />
@@ -116,7 +120,7 @@
             android:text="30 °C"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_temp"
-            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/gh_start_icon_temp"
             app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_temp"
             app:layout_constraintVertical_bias="0.21" />
@@ -128,6 +132,7 @@
             android:text="3320 LUM"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_light"
+            app:layout_constraintHorizontal_bias="0.39"
             app:layout_constraintStart_toStartOf="@+id/gh_start_icon_light"
             app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_light"
             app:layout_constraintVertical_bias="0.21" />
@@ -139,7 +144,7 @@
             android:text="59 %"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/gh_start_icon_hum"
-            app:layout_constraintHorizontal_bias="0.48"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/gh_start_icon_hum"
             app:layout_constraintTop_toBottomOf="@+id/gh_start_icon_hum"
             app:layout_constraintVertical_bias="0.21" />

@@ -47,9 +47,11 @@ public class DeviceRepository {
     private List<GreenData> currentData;
 
     MutableLiveData<List<GreenData>> chartData;
+    
+    MutableLiveData<String> controlResponse;
 
     private List<String> userDevices;
-     private List<GreenData> greenList;
+    private List<GreenData> greenList;
 
     public DeviceRepository(Application application) {
         GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
@@ -57,6 +59,9 @@ public class DeviceRepository {
         allDevices = new MutableLiveData<>();
 
         intervalData = new MutableLiveData<>();
+        
+        controlResponse = new MutableLiveData<>();
+        
         userDevices = StringToList(LocalStorage.getInstance().get("devices"));
         Log.e("user devices",userDevices+"");
 
@@ -472,5 +477,68 @@ public class DeviceRepository {
         }
 
         return c.getTime();
+    }
+    
+    public void controlWindow(String eui,int value) {
+        
+        Call<String> call = deviceAPI.windowPosition(eui,value);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
+    }
+    public void controlWater(String eui,int value) {
+        
+        Call<String> call = deviceAPI.waterControl(eui,value);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void controlLight(String eui,int value) {
+
+        Call<String> call = deviceAPI.lightControl(eui,value);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                controlResponse.setValue(response.body());
+                Log.i("Retrofit", "response : " + response.code()+" Message: "+response.message()+"\n Url: "+response.raw().request().url());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                controlResponse.setValue("Failed to send command!");
+                Log.i("Retrofit", "response : " + call.request().url());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public MutableLiveData<String> getControlResponse() {
+        return controlResponse;
     }
 }

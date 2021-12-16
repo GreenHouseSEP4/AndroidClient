@@ -12,5 +12,23 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="android:spinnerStyle">@style/RobotoSpinnerStyle</item>
+        <item name="android:editTextStyle">@style/RobotoEditText</item>
+
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+    <style name="RobotoSpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+    <style name="RobotoEditText" parent="android:Widget.EditText">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+    <style name="RobotoButtonStyle" parent="android:Widget.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 </resources>
