@@ -35,7 +35,6 @@ import com.greenhouse.android.View.RecyclerViewInfo.Indicator;
 import com.greenhouse.android.View.RecyclerViewInfo.InfoAdapter;
 import com.greenhouse.android.ViewModel.ChartViewModel;
 import com.greenhouse.android.ViewModel.DeviceControlViewModel;
-import com.greenhouse.android.ViewModel.GreenHouseInfoVM;
 import com.greenhouse.android.ViewModel.available_times;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 import com.greenhouse.android.Wrappers.Device;

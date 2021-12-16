@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.greenhouse.android.R;
 import com.greenhouse.android.View.RecyclerViewInfo.Indicator;
 import com.greenhouse.android.View.RecyclerViewInfo.InfoAdapter;
-import com.greenhouse.android.ViewModel.GreenHouseInfoVM;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GreenHouseInfoFragment extends Fragment implements InfoAdapter.OnListItemClickListener {
+public class DeviceInfoFragment extends Fragment implements InfoAdapter.OnListItemClickListener {
 
     InfoAdapter adapter;
     RecyclerView indicatorsRecycler;

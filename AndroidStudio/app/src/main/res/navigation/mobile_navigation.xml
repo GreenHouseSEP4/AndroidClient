@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_greenhouse_show"
-        android:name="com.greenhouse.android.View.Fragments.GreenHouseInfoFragment"
+        android:name="com.greenhouse.android.View.Fragments.DeviceInfoFragment"
         android:label="Details"
         tools:layout="@layout/fragment_greenhouse_show"/>
 

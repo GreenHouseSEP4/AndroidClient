@@ -1,14 +1,18 @@
 package com.greenhouse.android.ViewModel;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.DeviceRepository;
 
-public class DeviceControlViewModel extends ViewModel {
+public class DeviceControlViewModel extends AndroidViewModel {
 
-    public DeviceControlViewModel() {
-        deviceRepository = DeviceRepository.getInstance();
+    public DeviceControlViewModel(Application application) {
+        super(application);
+        deviceRepository = DeviceRepository.getInstance(application);
     }
 
     private static DeviceRepository deviceRepository;
