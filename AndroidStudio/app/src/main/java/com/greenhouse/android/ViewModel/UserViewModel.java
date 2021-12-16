@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.UserRepository;
-import com.greenhouse.android.Wrappers.APIResponse.JWT;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.User;
 
 
@@ -15,7 +15,7 @@ public class UserViewModel extends ViewModel {
         repository = UserRepository.getInstance();
     }
 
-    public LiveData<JWT> getToken(){
+    public LiveData<LoggedUser> getToken(){
         return repository.getToken();
     }
 

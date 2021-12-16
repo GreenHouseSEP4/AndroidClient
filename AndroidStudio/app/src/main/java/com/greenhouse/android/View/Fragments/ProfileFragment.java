@@ -12,13 +12,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.greenhouse.android.R;
 import com.greenhouse.android.View.LoginActivity;
-import com.greenhouse.android.View.RegisterActivity;
-import com.greenhouse.android.View.StartActivity;
 import com.greenhouse.android.ViewModel.ProfileViewModel;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.User;
 import com.greenhouse.android.databinding.FragmentProfileBinding;
 
@@ -43,6 +44,17 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        profileViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<LoggedUser>() {
+            @Override
+            public void onChanged(LoggedUser loggedUser) {
+                if (loggedUser.getUser() != null) {
+                    updateFields(loggedUser.getUser());
+                } else {
+                    Toast.makeText(getContext(), "Please check your connection!", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(getView()).navigate(R.id.navigation_home);
+                }
+            }
+        });
 
         saveButton = root.findViewById(R.id.profileSaveButton);
         logoutButton = root.findViewById(R.id.profile_button_logout);
@@ -64,14 +76,13 @@ public class ProfileFragment extends Fragment {
     private void updateFields(User current){
         username.setText(current.getName());
         email.setText(current.getEmail());
-        password.setText(current.getPassword());
+        password.setText("password");
     }
 
     private void updateUser(){
         try {
             String newPassword = password.getText().toString();
-            User updated = new User(email.getText().toString(),newPassword);
-            profileViewModel.updateUser(updated);
+            profileViewModel.updatePassword(newPassword);
         }  catch (Exception e) {
             Toast.makeText(getContext(), "Password is incorrect", Toast.LENGTH_SHORT).show();
         }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.DeviceRepository;
 import com.greenhouse.android.Model.UserRepository;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.Wrappers.User;
 
@@ -20,8 +21,13 @@ public class ProfileViewModel extends ViewModel {
         repository = UserRepository.getInstance();
     }
 
-    public void updateUser(User user){repository.login(user);}
+    public void updatePassword(String newPass){
+        repository.updatePass(newPass);
+    }
 
+    public LiveData<LoggedUser> getUser() {
+        return repository.getLoggedUser();
+    }
     public void logout() {
         repository.logout();
     }
