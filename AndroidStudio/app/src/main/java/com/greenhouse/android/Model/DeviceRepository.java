@@ -140,6 +140,7 @@ public class DeviceRepository {
                     allDevices.setValue(devices);
                 }
             });
+            return;
         }
 
         for(int i=0;i<userDevices.size();i++){
