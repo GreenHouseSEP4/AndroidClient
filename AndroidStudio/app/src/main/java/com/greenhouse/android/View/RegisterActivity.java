@@ -9,7 +9,6 @@ import com.greenhouse.android.ViewModel.UserViewModel;
 import com.greenhouse.android.Wrappers.APIResponse.JWT;
 import com.greenhouse.android.Wrappers.User;
 import com.google.android.material.navigation.NavigationView;
-import com.greenhouse.android.databinding.ActivityMainPageBinding;
 import com.greenhouse.android.databinding.ActivityRegisterBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
