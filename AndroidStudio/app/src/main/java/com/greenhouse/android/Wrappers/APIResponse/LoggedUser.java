@@ -1,9 +1,19 @@
 package com.greenhouse.android.Wrappers.APIResponse;
 
-import com.greenhouse.android.Wrappers.User;
+import androidx.annotation.NonNull;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import com.greenhouse.android.Wrappers.User;
+@Entity(tableName = "user_table")
 public class LoggedUser {
+    @PrimaryKey
+    private int userId;
+    @Embedded
     private String token;
+    @Embedded
     private User user;
 
     public String getToken() {
@@ -14,6 +24,7 @@ public class LoggedUser {
         this.token = token;
     }
 
+    @Ignore
     public LoggedUser(String token) {
         this.token = token;
     }
@@ -21,6 +32,15 @@ public class LoggedUser {
     public LoggedUser(String token, User user) {
         this.token = token;
         this.user = user;
+        this.userId = user.getId();
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public User getUser() {

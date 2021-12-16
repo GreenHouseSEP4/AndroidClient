@@ -6,13 +6,15 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 
 
-@Database(entities = {Device.class}, version = 2)
+@Database(entities = {Device.class, LoggedUser.class}, version = 3)
 public abstract class GreenHouseDatabase extends RoomDatabase {
     private static GreenHouseDatabase instance;
-    public abstract DeviceDao getDeviceDao();
+    public abstract DeviceCache getDeviceDao();
+    public abstract UserCache getUserCache();
 
     public static synchronized GreenHouseDatabase getInstance(Context context){
         if(instance == null){

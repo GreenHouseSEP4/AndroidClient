@@ -15,6 +15,7 @@ import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.Wrappers.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -181,7 +182,7 @@ public class UserRepository {
             public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
                 if (response.code() == 200) {
                     User user = loggedUser.getValue().getUser();
-                    user.setDevices(response.body());
+                    user.setDevices((ArrayList<Device>) response.body());
                     LoggedUser current = loggedUser.getValue();
                     current.setUser(user);
                     loggedUser.setValue(current);

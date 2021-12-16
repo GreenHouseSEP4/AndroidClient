@@ -3,14 +3,16 @@ package com.greenhouse.android.Model;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.greenhouse.android.Networking.DeviceAPI;
 import com.greenhouse.android.Networking.ServiceGenerator;
 import com.greenhouse.android.Util.DateUtil;
 import com.greenhouse.android.Util.LocalStorage;
-import com.greenhouse.android.Util.RoomDatabase.DeviceDao;
+import com.greenhouse.android.Util.RoomDatabase.DeviceCache;
 import com.greenhouse.android.Util.RoomDatabase.GreenHouseDatabase;
 import com.greenhouse.android.ViewModel.available_times;
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
@@ -20,7 +22,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -35,13 +36,11 @@ public class DeviceRepository {
     private static DeviceRepository instance;
     private DeviceAPI deviceAPI;
 
-
-    private final DeviceDao deviceDao;
+    private final DeviceCache deviceCache;
     private final ExecutorService executorService;
 
-
     private MutableLiveData<List<Device>> allDevices;
-    private LiveData<List<Device>> allDeviceLocal;
+
     private MutableLiveData<List<GreenData>> intervalData;
 
     private MutableLiveData<Device> deviceToView;
@@ -52,12 +51,14 @@ public class DeviceRepository {
     MutableLiveData<String> controlResponse;
 
     private List<String> userDevices;
-    private List<GreenData> greenList;
+
+    private MutableLiveData<String> apiResponse;
 
     public DeviceRepository(Application application) {
         GreenHouseDatabase localDatabase = GreenHouseDatabase.getInstance(application);
         deviceAPI = ServiceGenerator.getGreenhouseAPI();
         allDevices = new MutableLiveData<>();
+        apiResponse = new MutableLiveData<>();
 
         intervalData = new MutableLiveData<>();
         
@@ -73,7 +74,7 @@ public class DeviceRepository {
 
         //Initializing the local database
         GreenHouseDatabase database = GreenHouseDatabase.getInstance(application);
-        deviceDao = database.getDeviceDao();
+        deviceCache = database.getDeviceDao();
         executorService = Executors.newFixedThreadPool(2);
 
         getAll();
@@ -114,11 +115,20 @@ public class DeviceRepository {
     }
 
     public LiveData<List<Device>> getAll(){
+        fetchDevices();
+        return allDevices;
+    }
+    public void fetchDevices(){
         List<Device> currentAll = new ArrayList<>();
+        deviceCache.getAllLocal().observeForever(new Observer<List<Device>>() {
+            @Override
+            public void onChanged(List<Device> devices) {
+                allDevices.setValue(devices);
+            }
+        });
         for(int i=0;i<userDevices.size();i++){
 
             final Device[] current = new Device[1];
-
             Call<Device> call = deviceAPI.get(userDevices.get(i));
             Log.e("user devices",userDevices+"");
             int finalI = i;
@@ -141,14 +151,11 @@ public class DeviceRepository {
                                     if (current[0] != null) {
                                         currentAll.add(current[0]);
                                         allDevices.setValue(currentAll);
+                                        deleteAllDevices();
+                                        insertAllInLocal(currentAll);
                                     }
                                     Log.e("green response green-data","call: "+response.body());
-                                    allDevices.setValue(currentAll);
-                                    //Local Data
-                                    deleteAllDevices();
-                                    insertAllInLocal(currentAll);
                                     Log.e("localStorage: ", "update: " + currentAll);
-
                                     Log.e("deviceAPI response","call: "+current[0]);
                                     Log.e("deviceAPI all devices: ", allDevices.getValue().size()+"");
                                 } else {
@@ -156,8 +163,6 @@ public class DeviceRepository {
                                     if (current[0] != null) {
                                         currentAll.add(current[0]);
                                         allDevices.setValue(currentAll);
-                                        deleteAllDevices();
-                                        insertAllInLocal(currentAll);
                                     }
                                     Log.e("green response","call: "+response.code()+" "+response.message());
                                     Log.e("green response","call: "+response.raw().toString());
@@ -173,8 +178,6 @@ public class DeviceRepository {
                                 if (current[0] != null) {
                                     currentAll.add(current[0]);
                                     allDevices.setValue(currentAll);
-                                    deleteAllDevices();
-                                    insertAllInLocal(currentAll);
                                 }
                             }
                         });
@@ -186,28 +189,18 @@ public class DeviceRepository {
                 @EverythingIsNonNull
                 @Override
                 public void onFailure(Call<Device> call, Throwable t) {
-                    Log.i("get device failure", "The data could not reach you!" +t.getMessage());
-//                    allDevices.setValue(currentAll);
-//                    deleteAllDevices();
-//                    insertAllInLocal(currentAll);
-                    Log.i("Retrofit", "The data could not reach you!" +t.getMessage());
-
-
-                    //Getting the previous data from the local database
-                    //LiveData<List<Device>> tempLocalList = deviceDao.getAllLocal();
-                    //Assigning to the devices
-                    //allDevices.setValue();
-
+                    deviceCache.getAllLocal().observeForever(new Observer<List<Device>>() {
+                        @Override
+                        public void onChanged(List<Device> devices) {
+                            allDevices.setValue(devices);
+                        }
+                    });
 
                 }
             });
         }
-        allDevices.setValue(currentAll);
-        deleteAllDevices();
-        insertAllInLocal(currentAll);
-
-        return deviceDao.getAllLocal();
     }
+
 
     public void update(Device device) {
         Call<Device> call = deviceAPI.update(device);
@@ -220,7 +213,6 @@ public class DeviceRepository {
                     Log.e("update device not 200","call: "+response.code()+" "+response.message());
                 }
             }
-
             @Override
             public void onFailure(Call<Device> call, Throwable t) {
                 Log.i("Update dev failure", "The data could not reach you!" +t.getMessage());
@@ -315,13 +307,17 @@ public class DeviceRepository {
     public void insertAllInLocal(List<Device> devices){
         for(int i = 0; i < devices.size(); i++){
             int finalI = i;
-            executorService.execute(() -> deviceDao.insert(devices.get(finalI)));
+            executorService.execute(() -> deviceCache.insert(devices.get(finalI)));
       }
         //executorService.execute(() -> deviceDao.insert(device));
     }
 
     public void deleteAllDevices(){
-        executorService.execute(deviceDao::deleteAll);
+        executorService.execute(deviceCache::deleteAll);
+    }
+
+    public void getAllLocalDevices(){
+        deviceCache.getAllLocal();
     }
 
 

@@ -1,18 +1,41 @@
 package com.greenhouse.android.Wrappers;
 
+import androidx.room.Embedded;
+import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
     private String email;
     private String password;
     private String name;
+    @PrimaryKey
     private int id;
-    private List<Device> devices;
+    @Embedded
+    private ArrayList<Device> devices;
 
     public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDevices(ArrayList<Device> devices) {
+        this.devices = devices;
+    }
+
+
+    public User() {
     }
 
     public User(String email, String password) {
@@ -44,13 +67,10 @@ public class User {
         this.name = name;
     }
 
-    public List<Device> getDevices() {
+    public ArrayList<Device> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
-    }
 
     @Override
     public String toString() {

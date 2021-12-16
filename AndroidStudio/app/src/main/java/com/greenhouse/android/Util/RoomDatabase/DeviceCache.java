@@ -9,6 +9,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.List;
@@ -16,18 +17,15 @@ import java.util.List;
 import retrofit2.http.GET;
 
 @Dao
-public interface DeviceDao {
+public interface DeviceCache {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Device device);
 
-//    @Update
-//    void update(Device device);
-
-//    @Delete
-//    void delete(Device device);
 
     @Query("DELETE FROM device_table")
     void deleteAll();
+
 
     @Query("SELECT * FROM device_table")
     LiveData<List<Device>> getAllLocal();
