@@ -6,21 +6,15 @@ import android.os.Bundle;
 
 import com.greenhouse.android.R;
 import com.greenhouse.android.ViewModel.UserViewModel;
-import com.greenhouse.android.Wrappers.APIResponse.JWT;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.User;
-import com.google.android.material.navigation.NavigationView;
 import com.greenhouse.android.databinding.ActivityRegisterBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -79,10 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.getToken().observe(this, new Observer<JWT>() {
+        userViewModel.getToken().observe(this, new Observer<LoggedUser>() {
             @Override
-            public void onChanged(JWT jwt) {
-                if(jwt.getToken().equals("empty")||jwt.getToken().equals("loading")){
+            public void onChanged(LoggedUser loggedUser) {
+                if(loggedUser.getToken().equals("empty")|| loggedUser.getToken().equals("loading")){
                     password.setVisibility(View.VISIBLE);
                     email.setVisibility(View.VISIBLE);
                     name.setVisibility(View.VISIBLE);

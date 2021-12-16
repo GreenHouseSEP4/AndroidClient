@@ -2,36 +2,23 @@ package com.greenhouse.android.View;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
-import com.google.android.material.navigation.NavigationView;
 import com.greenhouse.android.R;
-import com.greenhouse.android.View.StartActivity;
 import com.greenhouse.android.ViewModel.UserViewModel;
-import com.greenhouse.android.Wrappers.APIResponse.JWT;
 import com.greenhouse.android.Wrappers.User;
 import com.greenhouse.android.databinding.ActivityLoginBinding;
-import com.greenhouse.android.databinding.ActivityMainPageBinding;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 

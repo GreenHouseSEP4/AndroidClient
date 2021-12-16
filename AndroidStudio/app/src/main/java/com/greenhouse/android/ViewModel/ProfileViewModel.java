@@ -9,19 +9,26 @@ import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.DeviceRepository;
 import com.greenhouse.android.Model.UserRepository;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.Wrappers.User;
 
 import java.util.List;
 
-public class ProfileViewModel extends ViewModel {
+public class ProfileViewModel extends AndroidViewModel {
     UserRepository repository;
-    public ProfileViewModel() {
-        repository = UserRepository.getInstance();
+    public ProfileViewModel(Application application) {
+        super(application);
+        repository = UserRepository.getInstance(application);
     }
 
-    public void updateUser(User user){repository.login(user);}
+    public void updatePassword(String newPass){
+        repository.updatePass(newPass);
+    }
 
+    public LiveData<LoggedUser> getUser() {
+        return repository.getLoggedUser();
+    }
     public void logout() {
         repository.logout();
     }

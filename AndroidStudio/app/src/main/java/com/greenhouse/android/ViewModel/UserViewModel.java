@@ -1,21 +1,25 @@
 package com.greenhouse.android.ViewModel;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.UserRepository;
-import com.greenhouse.android.Wrappers.APIResponse.JWT;
+import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.User;
 
 
-public class UserViewModel extends ViewModel {
+public class UserViewModel extends AndroidViewModel {
     private UserRepository repository;
 
-    public UserViewModel(){
-        repository = UserRepository.getInstance();
+    public UserViewModel(Application application){
+        super(application);
+        repository = UserRepository.getInstance(application);
     }
 
-    public LiveData<JWT> getToken(){
+    public LiveData<LoggedUser> getToken(){
         return repository.getToken();
     }
 

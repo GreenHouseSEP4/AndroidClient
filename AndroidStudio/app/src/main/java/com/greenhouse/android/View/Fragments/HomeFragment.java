@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,10 @@ import com.greenhouse.android.Wrappers.Device;
 import com.greenhouse.android.View.Adapters.DeviceListAdapter;
 import com.greenhouse.android.databinding.FragmentHomeBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements DeviceListAdapter.OnListItemClickListener {
@@ -34,6 +38,7 @@ public class HomeFragment extends Fragment implements DeviceListAdapter.OnListIt
     RecyclerView recyclerViewMainPage;
 
     FloatingActionButton addDevice;
+    private TextView time;
 
     List<Device> ghList;  // Moved it outside of the method so the clicklistener works.
     DeviceListAdapter adapter; // Here because I need to use it in the bundle.
@@ -57,6 +62,11 @@ public class HomeFragment extends Fragment implements DeviceListAdapter.OnListIt
         recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewMainPage.setAdapter(adapter);
         recyclerViewMainPage.hasFixedSize();
+
+        time = root.findViewById(R.id.home_time);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        time.setText(new SimpleDateFormat("MMMM dd, EE").format(cal.getTime()));
 
         addDevice = root.findViewById(R.id.home_add_device_button);
 

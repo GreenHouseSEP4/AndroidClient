@@ -1,18 +1,17 @@
 package com.greenhouse.android.Util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.greenhouse.android.View.LoginActivity;
 
 
 public class LocalStorage {
     private static LocalStorage localStorage;
 
-    public LoginActivity loginActivity;
+    public Context context;
 
     public LocalStorage() {
-        loginActivity = new LoginActivity();
+        context = AndroidClient.getAppContext();
     }
 
     public static LocalStorage getInstance(){
@@ -22,14 +21,14 @@ public class LocalStorage {
     }
 
     public void set(String key, String value){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(loginActivity.getContextOfApplication());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
     public String get(String key){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(loginActivity.getContextOfApplication());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(key,"default");
     }
 }
