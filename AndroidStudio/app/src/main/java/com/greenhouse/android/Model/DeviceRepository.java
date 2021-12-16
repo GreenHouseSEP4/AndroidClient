@@ -80,7 +80,7 @@ public class DeviceRepository {
         return instance;
     }
 
-    public LiveData<List<Device>> getAll(){
+
     public MutableLiveData<Device> getDeviceToView(String eui) {
         getDevice(eui);
         return deviceToView;
@@ -107,7 +107,7 @@ public class DeviceRepository {
         });
     }
 
-    public MutableLiveData<List<Device>> getAll(){
+    public LiveData<List<Device>> getAll(){
         List<Device> currentAll = new ArrayList<>();
         for(int i=0;i<userDevices.size();i++){
 
