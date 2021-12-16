@@ -15,10 +15,11 @@ import com.greenhouse.android.Wrappers.User;
 
 import java.util.List;
 
-public class ProfileViewModel extends ViewModel {
+public class ProfileViewModel extends AndroidViewModel {
     UserRepository repository;
-    public ProfileViewModel() {
-        repository = UserRepository.getInstance();
+    public ProfileViewModel(Application application) {
+        super(application);
+        repository = UserRepository.getInstance(application);
     }
 
     public void updatePassword(String newPass){

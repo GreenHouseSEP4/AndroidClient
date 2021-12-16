@@ -1,10 +1,11 @@
 package com.greenhouse.android.Model;
 
-import android.os.AsyncTask;
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 
 import com.greenhouse.android.Networking.AuthAPI;
@@ -28,25 +29,59 @@ public class UserRepository {
     private AuthAPI authAPI;
 
     private MutableLiveData<LoggedUser> loggedUser;
+    private MutableLiveData<List<Device>> userDevices;
 
     private String email;
     private String pass;
 
     private MutableLiveData<String> apiResponse;
 
-    private UserRepository(){
+    private UserRepository(Application application){
         userAPI = ServiceGenerator.getUserAPI();
         authAPI = ServiceGenerator.getAuthAPI();
         loggedUser = new MutableLiveData<>();
         apiResponse = new MutableLiveData<>();
+        userDevices = new MutableLiveData<>();
 
         loggedUser.setValue(new LoggedUser(LocalStorage.getInstance().get("access_token")));
+
+        apiResponse.observeForever(s -> Log.e("API response user:" ,s));
+        getLoggedUser();
+    }
+
+    public MutableLiveData<LoggedUser> getLoggedUser() {
         email = LocalStorage.getInstance().get("email");
         pass = LocalStorage.getInstance().get("pass");
-        AsyncTask.execute(new Runnable() {
+        login(new User(email,pass));
+        return loggedUser;
+    }
+
+    public void login(User user){
+
+        apiResponse.setValue("Started login!");
+        LocalStorage.getInstance().set("email",user.getEmail());
+        LocalStorage.getInstance().set("pass",user.getPassword());
+        System.out.println(user);
+
+        Call<LoggedUser> call = authAPI.login(user);
+        call.enqueue(new Callback<LoggedUser>() {
             @Override
-            public void run() {
-                login(new User(email,pass));
+            public void onResponse(Call<LoggedUser> call, Response<LoggedUser> response) {
+                if(response.isSuccessful()){
+                    LocalStorage.getInstance().set("access_token", response.body().getToken());
+                    loggedUser.setValue(response.body());
+                    userDevices.setValue(response.body().getUser().getDevices());
+                    apiResponse.setValue("Successfully logged in!");
+                    Log.i("api response", response.body().toString());
+                }else{
+                    loggedUser.setValue(new LoggedUser("empty"));
+                    apiResponse.setValue("Error during login! " + response.code()+" "+response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoggedUser> call, Throwable t) {
+                apiResponse.setValue("Please check your connection!");
             }
         });
 
@@ -59,13 +94,14 @@ public class UserRepository {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.code() == 200){
-                    login(response.body());
+                if(response.isSuccessful()){
+                    User resp = response.body();
+                    resp.setPassword(newPass);
+                    login(resp);
                 }else{
                     apiResponse.setValue("Not updated!");
                 }
             }
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 apiResponse.setValue("Please check your connection!");
@@ -73,9 +109,9 @@ public class UserRepository {
         });
     }
 
-    public static UserRepository getInstance(){
+    public static UserRepository getInstance(Application application){
         if(instance==null){
-            instance = new UserRepository();
+            instance = new UserRepository(application);
         }
         return instance;
     }
@@ -86,31 +122,6 @@ public class UserRepository {
         return loggedUser;
     }
 
-    public void login(User user){
-        LocalStorage.getInstance().set("email",user.getEmail());
-        LocalStorage.getInstance().set("pass",user.getPassword());
-
-        Call<LoggedUser> call = authAPI.login(user);
-        call.enqueue(new Callback<LoggedUser>() {
-            @Override
-            public void onResponse(Call<LoggedUser> call, Response<LoggedUser> response) {
-                if(response.code() == 200){
-                    LocalStorage.getInstance().set("access_token", response.body().getToken());
-                    loggedUser.setValue(response.body());
-                    Log.i("api response", response.body().toString());
-
-                }else{
-                    loggedUser.setValue(new LoggedUser("empty"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoggedUser> call, Throwable t) {
-                apiResponse.setValue("Please check your connection!");
-            }
-        });
-
-    }
 
     public void logout(){
         loggedUser.setValue(new LoggedUser("empty"));
@@ -118,23 +129,23 @@ public class UserRepository {
         LocalStorage.getInstance().set("email","clear");
         LocalStorage.getInstance().set("pass","clear");
     }
-
     public void register(User user){
-        Call<User> call = userAPI.register(user);
+        Call<User> call = authAPI.register(user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
+                    apiResponse.setValue("Successfully registered!");
                     login(user);
                 } else {
                     loggedUser.setValue(new LoggedUser("empty"));
+                    apiResponse.setValue("An error happened during registering ! "+response.code()+" "+response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.i("api call", "Error");
-                loggedUser.setValue(new LoggedUser("empty"));
                 apiResponse.setValue("Please check your connection!");
             }
         });
@@ -144,10 +155,10 @@ public class UserRepository {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
                     apiResponse.setValue("Successfully deleted!");
                 } else {
-                    apiResponse.setValue("An error happened!");
+                    apiResponse.setValue("An error happened during deleting ! "+response.code()+" "+response.message());
                 }
                 getAllDevices();
             }
@@ -162,10 +173,10 @@ public class UserRepository {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
                     apiResponse.setValue("Successfully added!");
                 } else {
-                    apiResponse.setValue("An error happened!");
+                    apiResponse.setValue("An error happened during adding ! "+response.code()+" "+response.message());
                 }
                 getAllDevices();
             }
@@ -175,28 +186,30 @@ public class UserRepository {
             }
         });
     }
+
+    public MutableLiveData<List<Device>> getUserDevices() {
+        return userDevices;
+    }
+
+
     public void getAllDevices() {
         Call<List<Device>> call = userAPI.getDevices();
         call.enqueue(new Callback<List<Device>>() {
             @Override
             public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
-                if (response.code() == 200) {
-                    User user = loggedUser.getValue().getUser();
-                    user.setDevices((ArrayList<Device>) response.body());
-                    LoggedUser current = loggedUser.getValue();
-                    current.setUser(user);
-                    loggedUser.setValue(current);
+                if (response.isSuccessful()) {
+                    userDevices.setValue(response.body());
+                    apiResponse.setValue("Successfully fetched user devices!");
+                } else {
+                    apiResponse.setValue("Call not 200" +response.code());
                 }
             }
-
             @Override
             public void onFailure(Call<List<Device>> call, Throwable t) {
 
+                apiResponse.setValue("Please check your connection!" +t.getMessage());
+
             }
         });
-    }
-
-    public MutableLiveData<LoggedUser> getLoggedUser() {
-        return loggedUser;
     }
 }

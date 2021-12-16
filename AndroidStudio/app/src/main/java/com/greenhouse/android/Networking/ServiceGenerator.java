@@ -25,6 +25,17 @@ public class ServiceGenerator {
         }
     }).build();
 
+    private static OkHttpClient clientJWT = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request newRequest  = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + LocalStorage.getInstance().get("access_token"))
+                    .build();
+            System.out.println(LocalStorage.getInstance().get("access_token"));
+            return chain.proceed(newRequest);
+        }
+    }).build();
+
     private static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -39,11 +50,12 @@ public class ServiceGenerator {
 
     private static Retrofit retrofit = retrofitBuilder.client(client).build();
     private static Retrofit retrofitAuth = authBuilder.build();
+    private static Retrofit retrofitAndroidData = authBuilder.client(clientJWT).build();
 
 
 
     private static DeviceAPI deviceAPI = retrofit.create(DeviceAPI.class);
-    private static UserAPI userAPI = retrofitAuth.create(UserAPI.class);
+    private static UserAPI userAPI = retrofitAndroidData.create(UserAPI.class);
     private static AuthAPI authAPI = retrofitAuth.create(AuthAPI.class);
 
     public static DeviceAPI getGreenhouseAPI()

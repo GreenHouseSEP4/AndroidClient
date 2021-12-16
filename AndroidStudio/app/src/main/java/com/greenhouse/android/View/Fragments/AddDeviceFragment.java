@@ -89,6 +89,7 @@ public class AddDeviceFragment extends Fragment {
     private void updateDevice(){
         String newName = name.getText().toString();
         String id = deviceId.getText().toString();
+        Device updated;
         if (id.length() != 16) {
             Toast.makeText(getContext(), "DeviceID should be 16 characters long.", Toast.LENGTH_SHORT).show();
             return;
@@ -110,12 +111,12 @@ public class AddDeviceFragment extends Fragment {
             int lightThresholdMax = intFromEdit(thresholdMaxLight);
             int co2ThresholdMax = intFromEdit(thresholdMaxCO2);
 
-            Device updated = new Device(id,newName,tempThresholdMin,tempThresholdMax,humThresholdMin,humThresholdMax,co2ThresholdMin,co2ThresholdMax,lightThresholdMin,lightThresholdMax,tempTarget,humTarget,lightTarget,co2Target);
+            updated = new Device(id,newName,tempThresholdMin,tempThresholdMax,humThresholdMin,humThresholdMax,co2ThresholdMin,co2ThresholdMax,lightThresholdMin,lightThresholdMax,tempTarget,humTarget,lightTarget,co2Target);
 
             addDeviceViewModel.createDevice(updated);
             Navigation.findNavController(getActivity(), R.id.fragment_add_device).navigate(R.id.navigation_home);
-
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(getContext(), "Only whole numbers allowed!", Toast.LENGTH_SHORT).show();
         }
     }

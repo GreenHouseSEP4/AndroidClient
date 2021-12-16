@@ -10,9 +10,7 @@ public class User {
     private String email;
     private String password;
     private String name;
-    @PrimaryKey
     private int id;
-    @Embedded
     private ArrayList<Device> devices;
 
     public User(String email, String password, String name) {
@@ -21,6 +19,13 @@ public class User {
         this.name = name;
     }
 
+    public User(String email, String password, String name, int id, ArrayList<Device> devices) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.id = id;
+        this.devices = devices;
+    }
 
     public int getId() {
         return id;

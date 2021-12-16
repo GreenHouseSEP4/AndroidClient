@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.greenhouse.android.Model.DeviceRepository;
+import com.greenhouse.android.Model.UserRepository;
 import com.greenhouse.android.Wrappers.Device;
 
 import java.util.List;
@@ -15,10 +16,12 @@ public class SettingsViewModel extends AndroidViewModel {
 
 
     private static DeviceRepository deviceRepository;
+    private static UserRepository userRepository;
 
     public SettingsViewModel(Application application) {
         super(application);
         deviceRepository = DeviceRepository.getInstance(application);
+        userRepository = UserRepository.getInstance(application);
     }
 
     public LiveData<List<Device>> getAll(){
@@ -29,6 +32,6 @@ public class SettingsViewModel extends AndroidViewModel {
         deviceRepository.update(device);
     }
     public void deleteDevice(String deviceEUI){
-        deviceRepository.delete(deviceEUI);
+        userRepository.deleteDevice(deviceEUI);
     }
 }

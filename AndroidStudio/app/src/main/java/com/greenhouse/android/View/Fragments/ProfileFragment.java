@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
                     updateFields(loggedUser.getUser());
                 } else {
                     Toast.makeText(getContext(), "Please check your connection!", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(getView()).navigate(R.id.navigation_home);
+//                    Navigation.findNavController(getView()).navigate(R.id.navigation_home);
                 }
             }
         });

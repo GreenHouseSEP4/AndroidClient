@@ -10,16 +10,15 @@ import com.greenhouse.android.Wrappers.APIResponse.LoggedUser;
 import com.greenhouse.android.Wrappers.Device;
 
 
-@Database(entities = {Device.class, LoggedUser.class}, version = 3)
-public abstract class GreenHouseDatabase extends RoomDatabase {
-    private static GreenHouseDatabase instance;
+@Database(entities = {Device.class}, version = 5)
+public abstract class DeviceDb extends RoomDatabase {
+    private static DeviceDb instance;
     public abstract DeviceCache getDeviceDao();
-    public abstract UserCache getUserCache();
 
-    public static synchronized GreenHouseDatabase getInstance(Context context){
+    public static synchronized DeviceDb getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    GreenHouseDatabase.class, "greenhouse_database")
+                    DeviceDb.class, "greenhouse_database")
                     .fallbackToDestructiveMigration()
                     .build();
         }

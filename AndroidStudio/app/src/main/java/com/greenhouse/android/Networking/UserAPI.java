@@ -12,11 +12,9 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserAPI {
-    @POST("users/register")
-    Call<User> register(@Body User user);
-
     @POST("users")
     Call<User> update(@Body User user);
 
@@ -24,10 +22,10 @@ public interface UserAPI {
     Call<User> deleteProfile();
 
     @DELETE("users/deleteDevice")
-    Call<User> deleteDevice(@Path("eui")String eui);
+    Call<User> deleteDevice(@Query("eui") String eui);
 
-    @DELETE("users/addDevice")
-    Call<User> addDevice(@Path("eui")String eui);
+    @POST("users/addDevice")
+    Call<User> addDevice(@Query("eui") String eui);
 
     @GET("users/devices")
     Call<List<Device>> getDevices();
