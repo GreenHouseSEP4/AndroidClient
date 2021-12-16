@@ -1,7 +1,9 @@
 package com.greenhouse.android.ViewModel;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -19,14 +21,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ChartViewModel extends ViewModel {
+public class ChartViewModel extends AndroidViewModel {
 
     DeviceRepository repository;
 
 
-    public ChartViewModel()
+    public ChartViewModel(Application application)
     {
-        repository = DeviceRepository.getInstance();
+        super(application);
+        repository = DeviceRepository.getInstance(application);
     }
 
 

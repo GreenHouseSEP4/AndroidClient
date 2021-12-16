@@ -1,16 +1,13 @@
-package com.greenhouse.android.Wrappers;
+package com.greenhouse.android.Util.RoomDatabase;
 
-import androidx.annotation.NonNull;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.greenhouse.android.Wrappers.APIResponse.GreenData;
 
-@Entity(tableName = "device_table")
-public class Device {
-    @PrimaryKey @NonNull
+@Entity (tableName = "device_table")
+public class DeviceEntity {
+    @PrimaryKey
     public String eui;
     public String location;
     public int minTemperature;
@@ -26,7 +23,6 @@ public class Device {
     public int targetLight;
     public int targetCO2;
 
-    @Embedded
     public GreenData lastData;
 
     public GreenData getLatest() {
@@ -37,7 +33,7 @@ public class Device {
         this.lastData = lastData;
     }
 
-    public Device(String eui, String location, int minTemperature, int maxTemperature, int minHumidity, int maxHumidity, int minCO2, int maxCO2, int minLight, int maxLight, int targetTemperature, int targetHumidity, int targetLight, int targetCO2) {
+    public DeviceEntity(String eui, String location, int minTemperature, int maxTemperature, int minHumidity, int maxHumidity, int minCO2, int maxCO2, int minLight, int maxLight, int targetTemperature, int targetHumidity, int targetLight, int targetCO2) {
         this.eui = eui;
         this.location = location;
         this.minTemperature = minTemperature;
@@ -54,8 +50,7 @@ public class Device {
         this.targetCO2 = targetCO2;
     }
 
-    @Ignore
-    public Device(String eui, String location) {
+    public DeviceEntity(String eui, String location) {
         this.eui = eui;
         this.location = location;
     }
@@ -184,6 +179,3 @@ public class Device {
         this.targetCO2 = targetCO2;
     }
 }
-
-
-
