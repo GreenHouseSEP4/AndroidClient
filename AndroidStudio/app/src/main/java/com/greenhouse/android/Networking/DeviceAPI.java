@@ -21,7 +21,8 @@ public interface DeviceAPI {
     Call<GreenData> getLastData(@Path("deviceId")String deviceId);
 
     @GET("measurements/{deviceId}/periodic")
-    Call<List<GreenData>> getIntervalData(@Path("deviceId")String eui, @Query("start") String start, @Query("end") String end);
+    Call<List<GreenData>> getIntervalData(@Path("deviceId")String eui,
+                                          @Query("start") String start, @Query("end") String end);
 
     @GET("devices/{deviceId}")
     Call<Device> get(@Path("deviceId")String deviceId);

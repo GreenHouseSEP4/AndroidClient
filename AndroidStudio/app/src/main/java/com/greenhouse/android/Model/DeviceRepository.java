@@ -129,10 +129,9 @@ public class DeviceRepository {
         fetchDevices();
         return allDevices;
     }
+
     public void fetchDevices(){
         List<Device> currentAll = new ArrayList<>();
-
-        System.out.println(userDevices);
 
         if (userDevices.size() == 0) {
             deviceCache.getAllLocal().observeForever(devices -> {
@@ -142,7 +141,6 @@ public class DeviceRepository {
             });
             return;
         }
-
         for(int i=0;i<userDevices.size();i++){
 
             final Device[] current = new Device[1];
